@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<tree editable="1">
+    <field name="parameter"/>
+    <field name="value"/>
+    <field name="gc1"/>
+    <field name="gc2"/>
+    <field name="gc3"/>
+</tree>

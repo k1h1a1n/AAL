@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<form>
+    <label name="shipment"/>
+    <field name="shipment"/>
+    <field name="critearea" colspan="4" 
+    view_ids="quality_control.pre_qualitycontrol_labcritearea_view_tree,quality_control.pre_qualitycontrol_labcritarea_view_form"/>
+    <label name="colour"/>
+    <field name="colour"/> 
+    <label name="ph"/>
+    <field name="ph"/> 
+    <label name="moisture"/>
+    <field name="moisture"/> 
+    <label name="spgravity"/>
+    <field name="spgravity"/> 
+    <label name="gcanalysis"/>
+    <field name="gcanalysis"/> 
+    <label name="gcgraphno"/>
+    <field name="gcgraphno"/> 
+</form>
