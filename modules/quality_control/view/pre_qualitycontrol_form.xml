@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<form>
+    <label name="shipment"/>
+    <field name="shipment"/>
+    <!-- <label name="suppliershipmentno"/>
+    <field name="suppliershipmentno"/> -->
+    <label name="party"/>
+    <field name="party"/>
+    <label name="material"/>
+    <field name="material"/>
+    <label name="inwarddate"/>
+    <field name="inwarddate"/>
+    <field name="critearea" colspan="2" 
+    view_ids="quality_control.pre_qualitycontrol_labcritearea_view_tree,quality_control.pre_qualitycontrol_labcritarea_view_form"/>
+    <field name="critearea1" colspan="2" 
+    view_ids="quality_control.pre_qualitycontrol_labcritearea1_view_tree,quality_control.pre_qualitycontrol_labcritarea1_view_form"/>
+    <label name="graph"/>
+    <field name="graph"/>
+    <newline/>
+    <separator string="" colspan="4" />
+    <separator string="Analysis of rejected material" colspan="4" />
+    <field name="rejected" colspan="2" 
+    view_ids="quality_control.pre_qualitycontrol_rejected_view_tree,quality_control.pre_qualitycontrol_rejected_view_form"/>
+    <label name="image"/>
+    <field name="image"/>
+    <newline/>
+    <label name="colour"/>
+    <field name="colour"/> 
+    <label name="ph"/>
+    <field name="ph"/> 
+    <label name="moisture"/>
+    <field name="moisture"/> 
+    <label name="spgravity"/>
+    <field name="spgravity"/> 
+    <label name="gcanalysis"/>
+    <field name="gcanalysis"/> 
+    <label name="gcgraphno"/>
+    <field name="gcgraphno"/>
+    <field name="customer" colspan="4" 
+    view_ids="quality_control.pre_qualitycontrol_customer_view_tree,quality_control.pre_qualitycontrol_customer_view_form"/>
+    <label name="remark"/>
+    <field name="remark"/>
+</form>

@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+     <!-- For preproduction  for name-->
+        <record model="ir.ui.view" id="pre_qualitycontrol_view_tree">
+            <field name="model">quality.control.preproduction</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">pre_qualitycontrol_tree</field>
+        </record>
+        <record model="ir.ui.view" id="pre_qualitycontrol_view_form">
+            <field name="model">quality.control.preproduction</field>
+            <field name="type">form</field>
+            <field name="name">pre_qualitycontrol_form</field>
+        </record>
+
+        <record model="ir.action.act_window" id="pre_act_qualitycontrol_form">
+            <field name="name">Pre Production Analysis</field>
+            <field name="res_model">quality.control.preproduction</field>
+        </record>
+        <record model="ir.action.act_window.view" id="pre_act_qualitycontrol_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="pre_qualitycontrol_view_tree"/>
+            <field name="act_window" ref="pre_act_qualitycontrol_form"/>
+        </record>
+        <record model="ir.action.act_window.view" id="pre_act_qualitycontrol_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="pre_qualitycontrol_view_form"/>
+            <field name="act_window" ref="pre_act_qualitycontrol_form"/>
+        </record>
+        
+        <!-- Pre Production Lab Critarea -->
+
+        <record model="ir.ui.view" id="pre_qualitycontrol_labcritearea_view_tree">
+            <field name="model">preproduction.lab.test.critearea</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">pre_qualitycontrol_labtest_tree</field>
+        </record>
+        <record model="ir.ui.view" id="pre_qualitycontrol_labcritarea_view_form">
+            <field name="model">preproduction.lab.test.critearea</field>
+            <field name="type">form</field>
+            <field name="name">pre_qualitycontrol_labtest_form</field>
+        </record>
+
+        <!-- Pre Production Lab Critarea1 -->
+
+        <record model="ir.ui.view" id="pre_qualitycontrol_labcritearea1_view_tree">
+            <field name="model">preproduction.lab.test.critearea1</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">pre_qualitycontrol_labtest1_tree</field>
+        </record>
+        <record model="ir.ui.view" id="pre_qualitycontrol_labcritarea1_view_form">
+            <field name="model">preproduction.lab.test.critearea1</field>
+            <field name="type">form</field>
+            <field name="name">pre_qualitycontrol_labtest1_form</field>
+        </record>
+
+        <!-- Pre Production Analysis Rejected -->
+
+        <record model="ir.ui.view" id="pre_qualitycontrol_rejected_view_tree">
+            <field name="model">preproduction.rejected.analysis</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">pre_qualitycontrol_rejectedanlaysis_tree</field>
+        </record>
+        <record model="ir.ui.view" id="pre_qualitycontrol_rejected_view_form">
+            <field name="model">preproduction.rejected.analysis</field>
+            <field name="type">form</field>
+            <field name="name">pre_qualitycontrol_rejectedanlaysis_form</field>
+        </record>
+
+        <!-- Pre Production Customer Specification -->
+
+        <record model="ir.ui.view" id="pre_qualitycontrol_customer_view_tree">
+            <field name="model">preproduction.customer.analysis</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">pre_qualitycontrol_customer_tree</field>
+        </record>
+        <record model="ir.ui.view" id="pre_qualitycontrol_customer_view_form">
+            <field name="model">preproduction.customer.analysis</field>
+            <field name="type">form</field>
+            <field name="name">pre_qualitycontrol_customer_form</field>
+        </record>
+
+ <!-- For postproduction-->
+
+        <record model="ir.ui.view" id="post_qualitycontrol_view_tree">
+            <field name="model">quality.control.postproduction</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">post_qualitycontrol_tree</field>
+        </record>
+        <record model="ir.ui.view" id="post_qualitycontrol_view_form">
+            <field name="model">quality.control.postproduction</field>
+            <field name="type">form</field>
+            <field name="name">post_qualitycontrol_form</field>
+        </record>
+
+        <record model="ir.action.act_window" id="post_act_qualitycontrol_form">
+            <field name="name">Post Production Analysis</field>
+            <field name="res_model">quality.control.postproduction</field>
+        </record>
+        <record model="ir.action.act_window.view" id="post_act_qualitycontrol_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="post_qualitycontrol_view_tree"/>
+            <field name="act_window" ref="post_act_qualitycontrol_form"/>
+        </record>
+        <record model="ir.action.act_window.view" id="post_act_qualitycontrol_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="post_qualitycontrol_view_form"/>
+            <field name="act_window" ref="post_act_qualitycontrol_form"/>
+        </record>
+
+        <!-- Post Production Analysis -->
+
+        <record model="ir.ui.view" id="post_qualitycontrol_analysis_view_tree">
+            <field name="model">postproduction.analysis.report</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">post_qualitycontrol_analysis_tree</field>
+        </record>
+        <record model="ir.ui.view" id="post_qualitycontrol_analysis_view_form">
+            <field name="model">postproduction.analysis.report</field>
+            <field name="type">form</field>
+            <field name="name">post_qualitycontrol_analysis_form</field>
+        </record>
+
+        <!-- Post Production Analysis One-->
+
+        <record model="ir.ui.view" id="post_qualitycontrol_analysis1_view_tree">
+            <field name="model">postproduction.analysis1.report</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">post_qualitycontrol_analysis1_tree</field>
+        </record>
+        <record model="ir.ui.view" id="post_qualitycontrol_analysis1_view_form">
+            <field name="model">postproduction.analysis1.report</field>
+            <field name="type">form</field>
+            <field name="name">post_qualitycontrol_analysis1_form</field>
+        </record>
+
+        <!-- Post Production Analysis Rejected -->
+
+        <record model="ir.ui.view" id="post_qualitycontrol_rejected_view_tree">
+            <field name="model">postproduction.rejected.analysis</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">post_qualitycontrol_rejectedanlaysis_tree</field>
+        </record>
+        <record model="ir.ui.view" id="post_qualitycontrol_rejected_view_form">
+            <field name="model">postproduction.rejected.analysis</field>
+            <field name="type">form</field>
+            <field name="name">post_qualitycontrol_rejectedanlaysis_form</field>
+        </record>
+
+        <!-- Post Production Customer Specification -->
+
+        <record model="ir.ui.view" id="post_qualitycontrol_customer_view_tree">
+            <field name="model">postproduction.customer.analysis</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">post_qualitycontrol_customer_tree</field>
+        </record>
+        <record model="ir.ui.view" id="post_qualitycontrol_customer_view_form">
+            <field name="model">postproduction.customer.analysis</field>
+            <field name="type">form</field>
+            <field name="name">post_qualitycontrol_customer_form</field>
+        </record>
+
+
+        <!-- menuitems -->
+        <menuitem name="Quality Control" id="menu_quality_control" sequence="2"/>
+        <!-- parent    -->
+        <menuitem parent="menu_quality_control" sequence="1" action="pre_act_qualitycontrol_form" id="menu_qualitycontrol_pre_production"/>
+        <menuitem parent="menu_quality_control" action="post_act_qualitycontrol_form" name="Post Production Analysis" id="menu_quality_control_post_production" sequence="2"/>
+    </data>
+</tryton>
