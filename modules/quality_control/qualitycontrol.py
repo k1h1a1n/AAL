@@ -17,9 +17,9 @@ class QualityControlPreproduction(ModelSQL, ModelView):
             ('state', '=', 'done'),
             ]
     )
-    party = fields.Many2One('party.party',"Party")
-    material = fields.Char('Material')
-    inwarddate = fields.Date('Inward Date')
+    # party = fields.Many2One('party.party',"Party")
+    # material = fields.Char('Material')
+    # inwarddate = fields.Date('Inward Date')
     critearea = fields.One2Many('preproduction.lab.test.critearea',
         'pre_production_lab_id', 'Analysis Report')
     critearea1 = fields.One2Many('preproduction.lab.test.critearea1',
@@ -73,12 +73,12 @@ class PreProductionCustomerSpecification(ModelSQL,ModelView):
 class QualityControlPostproduction(ModelSQL, ModelView):
     "Quality Control Postproduction"
     __name__ = "quality.control.postproduction"
+    production = fields.Many2One('production', "Production Batch")
     analysis = fields.One2Many('postproduction.analysis.report',
     'post_production_analysis_id', 'Analysis Report')
     analysis1 = fields.One2Many('postproduction.analysis1.report',
     'post_production_analysis1_id', 'Analysis Report')
     postgraph = fields.Binary("Graph Upload")
-    test = fields.Char("Example")
     rejected = fields.One2Many('postproduction.rejected.analysis',
         'post_production_rejected_id', 'GC Analysis')
     customer = fields.One2Many('postproduction.customer.analysis', 

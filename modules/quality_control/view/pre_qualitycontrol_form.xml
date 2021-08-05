@@ -2,14 +2,15 @@
 <form>
     <label name="shipment"/>
     <field name="shipment"/>
+    <newline/>
     <!-- <label name="suppliershipmentno"/>
     <field name="suppliershipmentno"/> -->
-    <label name="party"/>
+    <!-- <label name="party"/>
     <field name="party"/>
     <label name="material"/>
     <field name="material"/>
     <label name="inwarddate"/>
-    <field name="inwarddate"/>
+    <field name="inwarddate"/> -->
     <field name="critearea" colspan="2" 
     view_ids="quality_control.pre_qualitycontrol_labcritearea_view_tree,quality_control.pre_qualitycontrol_labcritarea_view_form"/>
     <field name="critearea1" colspan="2" 

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<tree editable="1">
+    <field name="inputqty"/>
+    <field name="water"/>
+    <field name="f1"/>
+    <field name="f2"/>
+    <field name="main"/>
+    <field name="aftermain"/>
+    <field name="residue"/>
+    <field name="loss"/>
+    <field name="packaging"/>
+    <field name="p1"/>
+    <field name="p2"/>
+    <field name="p3"/>
+    <field name="p4"/>
+    <field name="p5"/>
+    <field name="p6"/>
+</tree>

@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <form>
-    <label name="test"/>
-    <field name="test"/>
+    <label name="production"/>
+    <field name="production"/>
     <newline/>
     <field name="analysis" colspan="2" 
     view_ids="quality_control.post_qualitycontrol_analysis_view_tree,quality_control.post_qualitycontrol_analysis_view_form"/>

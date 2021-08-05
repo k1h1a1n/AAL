@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<data>
+    <xpath expr="/form/label[@name='reference']" position="before">
+        <label name="party"/>
+        <field name="party"/> 
+        <label name="reactorno"/>
+        <field name="reactorno"/> 
+        <label name="reactorcapacity"/>
+        <field name="reactorcapacity"/> 
+        <label name="details"/>
+        <field name="details"/> 
+        <label name="remarks"/>
+        <field name="remarks"/> 
+        
+    </xpath>
+    <xpath expr="/form/field[@name='product']" position="after">
+        <field name="temp_analysis" colspan="4" 
+    view_ids="quality_control.temp_analysis_record_view_tree,quality_control.temp_analysis_record_view_form"/>
+    
+    </xpath>
+    <xpath expr="/form/label[@name='state']" position="before">
+        <field name="material_balance_table" colspan="4" 
+    view_ids="quality_control.material_balance_view_tree,quality_control.material_balance_view_form"/>
+    
+    </xpath>
+    <xpath expr="/form/notebook" position="before">
+        <newline/>
+        <!-- <label name="party"/>
+        <field name="party"/>  -->
+        <field name="inwardno" widget="many2many" colspan="4"/> 
+    </xpath>
+</data>
