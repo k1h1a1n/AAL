@@ -69,6 +69,7 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
     "Supplier Shipment"
     __name__ = 'stock.shipment.in'
     _rec_name = 'number'
+    weighting = fields.Char('Weighting')
     bulk = fields.Boolean(
             "Bulk",
             )
@@ -84,9 +85,9 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         states={
                 'invisible': Eval('bulk',False)
                 })
-    l1000 = fields.Integer('1000L',
+    vehicle_no = fields.Integer('Vehicle Number',
         states={
-                'invisible': Eval('bulk',False)
+                'invisible': Eval('bulk',True)
                 })
     effective_date = fields.Date('Effective Date',
         states={
@@ -108,7 +109,7 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
             ],
         depends=['state'],
         help="The company the shipment is associated with.")
-    reference = fields.Char("Reference", size=None, select=True,
+    reference = fields.Char("Inward", size=None, select=True,
         states={
             'readonly': Eval('state') != 'draft',
             }, depends=['state'],
