@@ -10,8 +10,8 @@
     <label name="postgraph"/>
     <field name="postgraph"/>
     <newline/>
-    <separator string="" colspan="4" />
-    <separator string="Analysis of rejected material" colspan="4" />
+    <separator id="post1" string="" colspan="4" />
+    <separator id="post2" string="Analysis of rejected material" colspan="4" />
     <field name="rejected" colspan="2" 
     view_ids="quality_control.post_qualitycontrol_rejected_view_tree,quality_control.post_qualitycontrol_rejected_view_form"/>
     <label name="postimage"/>

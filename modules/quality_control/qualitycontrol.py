@@ -4,7 +4,7 @@ This file contains models.
 """ 
 from trytond.model import ModelSQL, ModelView, fields
 
-__all__ = ['QualityControlPreproduction','QualityControlPostproduction','PreProductionLabCritarea']
+__all__ = ['QualityControlPreproduction','QualityControlPostproduction','PreProductionLabCritarea','DeviationTable']
 
 
 # PRE PRODUCTION 
@@ -37,6 +37,13 @@ class QualityControlPreproduction(ModelSQL, ModelView):
     remark = fields.Text("Remarks by R&D")
     image = fields.Binary("Graph Upload")
     graph = fields.Binary("Graph Upload")
+    my_deviation_table = fields.One2Many('preproduction.deviation','deviation_table','Deviation Table')
+
+    # state = fields.Selection([
+    #         ('draft', 'Draft'),
+    #         ('approve', 'Approve'),
+    #         ('reject', 'Reject'),
+    #         ], 'State', readonly=True)
     
 
 class PreProductionLabCritarea(ModelSQL,ModelView):
@@ -117,5 +124,12 @@ class PostProductionCustomerSpecification(ModelSQL,ModelView):
     "Customer Specification"
     __name__ = "postproduction.customer.analysis"
     post_production_customer_id = fields.Many2One('quality.control.postproduction' , 'Customer Id')
+    parameter = fields.Char("Parameter")
+    value = fields.Char("Value")
+
+class DeviationTable(ModelSQL,ModelView):
+    "Deviation"
+    __name__ = "preproduction.deviation"
+    deviation_table = fields.Many2One('quality.control.preproduction','Deviation')
     parameter = fields.Char("Parameter")
     value = fields.Char("Value")

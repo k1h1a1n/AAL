@@ -80,6 +80,17 @@
             <field name="name">pre_qualitycontrol_customer_form</field>
         </record>
 
+         <!-- Pre Production Deviation Table -->
+         <record model="ir.ui.view" id="deviation_view_tree">
+            <field name="model">preproduction.deviation</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">deviation_tree</field>
+        </record>
+        <record model="ir.ui.view" id="deviation_view_form">
+            <field name="model">preproduction.deviation</field>
+            <field name="type">form</field>
+            <field name="name">deviation_form</field>
+        </record>
  <!-- For postproduction-->
 
         <record model="ir.ui.view" id="post_qualitycontrol_view_tree">

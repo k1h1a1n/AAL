@@ -2,12 +2,13 @@
 <form>
     <label name="shipment"/>
     <field name="shipment"/>
-    <label name="party"/>
-    <field name="party"/>
-    <label name="material"/>
+    <newline/>
+    <!-- <label name="party"/>
+    <field name="party"/> -->
+    <!-- <label name="material"/>
     <field name="material"/>
     <label name="inwarddate"/>
-    <field name="inwarddate"/>
+    <field name="inwarddate"/> -->
     <field name="critearea" colspan="2" 
     view_ids="quality_control.pre_qualitycontrol_labcritearea_view_tree,quality_control.pre_qualitycontrol_labcritarea_view_form"/>
     <field name="critearea1" colspan="2" 
@@ -34,8 +35,12 @@
     <field name="gcanalysis"/> 
     <label name="gcgraphno"/>
     <field name="gcgraphno"/>
+    <field name="my_deviation_table" colspan="4" 
+    view_ids="quality_control.deviation_view_tree,quality_control.deviation_view_form"/>
     <field name="customer" colspan="4" 
     view_ids="quality_control.pre_qualitycontrol_customer_view_tree,quality_control.pre_qualitycontrol_customer_view_form"/>
     <label name="remark"/>
     <field name="remark"/>
+    <!-- <label name="state"/>
+    <field name="state"/> -->
 </form>

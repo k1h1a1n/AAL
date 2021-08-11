@@ -25,6 +25,7 @@ def register():
         production.ProdShipment,
         production.TemperatureAnalysisRecord,
         production.MaterialBalanceSummary,
+        qualitycontrol.DeviationTable,
         module='quality_control', type_='model')
     Pool.register(
         module='quality_control', type_='wizard')
