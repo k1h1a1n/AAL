@@ -9,17 +9,17 @@ this repository contains the full copyright notices and license terms. -->
         <field name="reactorno"/> 
         <label name="reactorcapacity"/>
         <field name="reactorcapacity"/> 
-        <label name="details"/>
-        <field name="details"/> 
+        <!-- <label name="details"/>
+        <field name="details"/>  -->
         <label name="remarks"/>
         <field name="remarks"/> 
         
     </xpath>
-    <xpath expr="/form/field[@name='product']" position="after">
+    <!-- <xpath expr="/form/field[@name='product']" position="after">
         <field name="temp_analysis" colspan="4" 
     view_ids="quality_control.temp_analysis_record_view_tree,quality_control.temp_analysis_record_view_form"/>
-    
-    </xpath>
+
+    </xpath> -->
     <xpath expr="/form/label[@name='state']" position="before">
         <field name="material_balance_table" colspan="4" 
     view_ids="quality_control.material_balance_view_tree,quality_control.material_balance_view_form"/>

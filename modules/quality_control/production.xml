@@ -1,12 +1,10 @@
 <?xml version="1.0"?>
 <tryton>
     <data>
-
         <record model="ir.ui.view" id="production_view_form">
             <field name="model">production</field>
             <field name="inherit" ref="production.production_view_form"/>
-            <field name="name">production_form</field>
-            
+            <field name="name">production_form</field>           
         </record>
         <record model="ir.ui.view" id="temp_analysis_record_view_tree">
             <field name="model">temp.analysis.record</field>   <!--change in .py -->
@@ -29,6 +27,5 @@
             <field name="type">form</field>
             <field name="name">material_balance_form</field>
         </record>
-        
   </data>
 </tryton>
