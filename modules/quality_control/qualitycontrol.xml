@@ -16,6 +16,7 @@
         <record model="ir.action.act_window" id="pre_act_qualitycontrol_form">
             <field name="name">Pre Production Analysis</field>
             <field name="res_model">quality.control.preproduction</field>
+            <field name="search_value"></field>
         </record>
         <record model="ir.action.act_window.view" id="pre_act_qualitycontrol_form_view1">
             <field name="sequence" eval="10"/>
@@ -90,6 +91,68 @@
             <field name="model">preproduction.deviation</field>
             <field name="type">form</field>
             <field name="name">deviation_form</field>
+        </record>
+
+ <!-- For draft button-->
+        <record model="res.group" id="group_quality_preproduction">
+            <field name="name">Pre Production Analysis</field>
+        </record>
+
+         <record model="ir.model.button" id="preproduction_analysis_approve_button">
+            <field name="name">approve</field>
+            <field name="string">Approve</field>
+            <field name="model"
+                search="[('model', '=', 'quality.control.preproduction')]"/>
+        </record>
+        
+        
+        <record model="ir.model.button" id="preproduction_analysis_reject_button">
+            <field name="name">reject</field>
+            <field name="string">Reject</field>
+            <field name="model"
+                search="[('model', '=', 'quality.control.preproduction')]"/>
+        </record>
+
+        <record model="ir.model.button" id="preproduction_analysis_draft_button">
+            <field name="name">draft</field>
+            <field name="string">Draft</field>
+            <field name="model"
+                search="[('model', '=', 'quality.control.preproduction')]"/>
+        </record>
+    
+        <!-- preproduction domain -->
+        
+        <record model="ir.action.act_window.domain"
+            id="act_preproduction_list_domain_draft">
+            <field name="name">Draft</field>
+            <field name="sequence" eval="9999"/>
+            <field name="domain" eval="[('state', '=', 'draft')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="pre_act_qualitycontrol_form"/>
+        </record>
+         <record model="ir.action.act_window.domain"
+            id="act_preproduction_list_domain_approved">
+            <field name="name">Approved</field>
+            <field name="sequence" eval="10000"/>
+            <field name="domain" eval="[('state', '=', 'approved')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="pre_act_qualitycontrol_form"/>
+        </record>
+         <record model="ir.action.act_window.domain"
+            id="act_preproduction_list_domain_rejected">
+            <field name="name">Rejected</field>
+            <field name="sequence" eval="10001"/>
+            <field name="domain" eval="[('state', '=', 'rejected')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="pre_act_qualitycontrol_form"/>
+        </record>
+
+        <record model="ir.action.act_window.domain"
+            id="act_preproduction_list_domain_all">
+            <field name="name">All</field>
+            <field name="sequence" eval="10002"/>
+            <field name="domain"></field>
+            <field name="act_window" ref="pre_act_qualitycontrol_form"/>
         </record>
  <!-- For postproduction-->
 

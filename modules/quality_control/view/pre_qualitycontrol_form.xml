@@ -41,6 +41,12 @@
     view_ids="quality_control.pre_qualitycontrol_customer_view_tree,quality_control.pre_qualitycontrol_customer_view_form"/>
     <label name="remark"/>
     <field name="remark"/>
-    <!-- <label name="state"/>
-    <field name="state"/> -->
+    <newline/>
+    <group col="-1" colspan="2" id="state_buttons">
+        <button name="draft"/>
+        <button name="approve"/>
+        <button name="reject"/>
+    </group>
+    <label name="state"/>
+    <field name="state"/>
 </form>

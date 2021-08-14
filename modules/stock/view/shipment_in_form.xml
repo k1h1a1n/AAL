@@ -29,10 +29,11 @@ this repository contains the full copyright notices and license terms. -->
         <field name="gi" xexpand="0" width="25"/>
          <label name="pvc"/>
         <field name="pvc" xexpand="0" width="25"/>
-         <label name="vehicle_no"/>
-        <field name="vehicle_no" xexpand="0" width="25"/>
+         
         <!-- Add here some checkboxes ! -->
     </group>
+    <label name="vehicle_no"/>
+        <field name="vehicle_no" xexpand="0" width="25"/>
     <notebook colspan="6">
         <page name="incoming_moves">
             <field name="incoming_moves" colspan="4"

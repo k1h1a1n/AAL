@@ -85,9 +85,9 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         states={
                 'invisible': Eval('bulk',False)
                 })
-    vehicle_no = fields.Integer('Vehicle Number',
+    vehicle_no = fields.Char('Vehicle Number',
         states={
-                'invisible': Eval('bulk',True)
+                'invisible': ~Eval('bulk',False)
                 })
     effective_date = fields.Date('Effective Date',
         states={
@@ -95,7 +95,7 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
             },
         depends=['state'],
         help="When the stock was actually received.")
-    planned_date = fields.Date('Planned Date', states={
+    planned_date = fields.Date('Recieved Date', states={
             'readonly': Eval('state') != 'draft',
             }, depends=['state'],
         help="When the stock is expected to be received.")
@@ -210,6 +210,10 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         ('received', 'Received'),
         ], 'State', readonly=True,
         help="The current state of the shipment.")
+
+    # @fields.depends('ms')
+    # def on_change_ms(self):
+    #     sum+=
 
     @classmethod
     def __setup__(cls):

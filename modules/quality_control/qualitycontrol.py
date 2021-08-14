@@ -2,14 +2,17 @@
 """ helloworld.py
 This file contains models. 
 """ 
-from trytond.model import ModelSQL, ModelView, fields
+from trytond.model import ModelSQL, ModelView, Workflow, fields
+
+from trytond.pyson import Eval, Bool, If
+from trytond.pool import Pool
 
 __all__ = ['QualityControlPreproduction','QualityControlPostproduction','PreProductionLabCritarea','DeviationTable']
 
 
 # PRE PRODUCTION 
 
-class QualityControlPreproduction(ModelSQL, ModelView):
+class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
     "Quality Control Preproduction"
     __name__ = "quality.control.preproduction"
     shipment = fields.Many2One('stock.shipment.in', "Supplier Shipment",
@@ -39,12 +42,62 @@ class QualityControlPreproduction(ModelSQL, ModelView):
     graph = fields.Binary("Graph Upload")
     my_deviation_table = fields.One2Many('preproduction.deviation','deviation_table','Deviation Table')
 
-    # state = fields.Selection([
-    #         ('draft', 'Draft'),
-    #         ('approve', 'Approve'),
-    #         ('reject', 'Reject'),
-    #         ], 'State', readonly=True)
+    state = fields.Selection([
+            ('draft', 'Draft'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ], 'State', readonly=True)
     
+    @classmethod
+    def __setup__(cls):
+        super(QualityControlPreproduction, cls).__setup__()
+        cls._transitions |= set((
+                ('draft', 'approved'),
+                ('approved', 'draft'),
+                ('draft', 'rejected'),
+                ('rejected', 'draft'),
+                    ))
+        cls._buttons.update({
+                'draft': {
+                    'invisible': ~Eval('state').in_(['approved', 'rejected',
+                            ]),
+                    'depends': ['state'],
+                    }, 
+                'approve': {
+                    'invisible': ~Eval('state').in_(['draft'
+                            ]),
+                    'depends': ['state'],
+                    }, 
+                'reject': {
+                    'invisible': ~Eval('state').in_(['draft'
+                            ]),
+                    'depends': ['state'],
+                    }
+            }) 
+
+    @staticmethod
+    def default_state():
+        return 'draft'
+       
+    @classmethod
+    @ModelView.button
+    @Workflow.transition('approved')
+    def approve(cls,shipment):
+        print("states")
+
+    @classmethod
+    @ModelView.button
+    @Workflow.transition('rejected')
+    def reject(cls,shipment):
+        print("states")
+
+    @classmethod
+    @ModelView.button
+    @Workflow.transition('draft')
+    def draft(cls,shipment):
+        print("states")
+        
+
 
 class PreProductionLabCritarea(ModelSQL,ModelView):
     "Lab Critearea"
