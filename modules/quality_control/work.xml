@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+        <record model="ir.ui.view" id="work_view_form">
+            <field name="model">production.work</field>
+            <field name="inherit" ref="production_work.work_view_form"/>
+            <field name="name">work_form_latest</field>
+        </record>
+
+
+        <record model="ir.ui.view" id="treatment_freeparameter_view_tree">
+            <field name="model">treatment.freeparameter</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">treatment_freeparameter_tree</field>
+        </record>
+        <record model="ir.ui.view" id="treatment_freeparameter_view_form">
+            <field name="model">treatment.freeparameter</field>
+            <field name="type">form</field>
+            <field name="name">treatment_freeparameter_form</field>
+        </record>
+
+        <record model="ir.ui.view" id="materialbalance_view_tree">
+            <field name="model">treatment.materialbalance</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">treatment_materialbalance_tree</field>
+        </record>
+        <record model="ir.ui.view" id="materialbalance_view_form">
+            <field name="model">treatment.materialbalance</field>
+            <field name="type">form</field>
+            <field name="name">treatment_materialbalance_form</field>
+        </record>
+    </data>
+</tryton>

@@ -5,11 +5,17 @@ from trytond.pool import Pool
 # from qualitycontrol import QualityControl
 from . import qualitycontrol
 from . import production
+from . import routing
+from . import work
 __all__ = ['register']
 
 
 def register():
     Pool.register(
+        work.TreatmentMaterialBalance,
+        work.WorkType,
+        work.TreatmentFreeParameter,
+        routing.OperationType,
         qualitycontrol.PostProductionCustomerSpecification,
         qualitycontrol.PostProductionRejectedAnalysis,
         qualitycontrol.PostProductionAnalysis,
