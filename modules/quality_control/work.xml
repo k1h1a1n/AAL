@@ -18,5 +18,16 @@
             <field name="type">form</field>
             <field name="name">treatment_freeparameter_form</field>
         </record>
+
+        <record model="ir.ui.view" id="materialbalance_view_tree">
+            <field name="model">treatment.materialbalance</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">treatment_materialbalance_tree</field>
+        </record>
+        <record model="ir.ui.view" id="materialbalance_view_form">
+            <field name="model">treatment.materialbalance</field>
+            <field name="type">form</field>
+            <field name="name">treatment_materialbalance_form</field>
+        </record>
     </data>
 </tryton>

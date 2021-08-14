@@ -12,8 +12,7 @@ this repository contains the full copyright notices and license terms. -->
         <!-- <label name="details"/>
         <field name="details"/>  -->
         <label name="remarks"/>
-        <field name="remarks"/> 
-        
+        <field name="remarks"/>        
     </xpath>
     <!-- <xpath expr="/form/field[@name='product']" position="after">
         <field name="temp_analysis" colspan="4" 

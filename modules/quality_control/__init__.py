@@ -12,6 +12,7 @@ __all__ = ['register']
 
 def register():
     Pool.register(
+        work.TreatmentMaterialBalance,
         work.WorkType,
         work.TreatmentFreeParameter,
         routing.OperationType,
