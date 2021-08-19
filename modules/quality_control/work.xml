@@ -29,5 +29,27 @@
             <field name="type">form</field>
             <field name="name">treatment_materialbalance_form</field>
         </record>
+
+        <record model="ir.ui.view" id="fd_inputdetails_view_tree">
+            <field name="model">finaldistillation.input</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">fd_inputdetails_tree</field>
+        </record>
+        <record model="ir.ui.view" id="fd_inputdetails_view_form">
+            <field name="model">finaldistillation.input</field>
+            <field name="type">form</field>
+            <field name="name">fd_inputdetails_form</field>
+        </record>
+
+        <record model="ir.ui.view" id="fd_analysis_view_tree">
+            <field name="model">finaldistillation.analysis</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">fd_analysis_tree</field>
+        </record>
+        <record model="ir.ui.view" id="fd_analysis_view_form">
+            <field name="model">finaldistillation.analysis</field>
+            <field name="type">form</field>
+            <field name="name">fd_analysis_form</field>
+        </record>
     </data>
 </tryton>
