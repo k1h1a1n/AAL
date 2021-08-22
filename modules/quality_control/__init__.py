@@ -12,6 +12,10 @@ __all__ = ['register']
 
 def register():
     Pool.register(
+        work.Stripping,
+        work.WaterWashing,
+        work.ExtractiveDistillaion,
+        work.DistillationMaterialBalanceSummary,
         work.FinalDistillationAnalysis,
         work.FinalDistillationInput,
         work.TreatmentMaterialBalance,

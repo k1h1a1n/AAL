@@ -44,6 +44,9 @@ class WorkType( metaclass=PoolMeta):
         )
     treatment_boolean = fields.Boolean('Treatment')
     fd_boolean = fields.Boolean('Final Distillation')
+    ed_boolean = fields.Boolean('Extractive Distillation')
+    ww_boolean = fields.Boolean('Water Washing')
+    striping = fields.Boolean('Striping')
 
     materialbalance = fields.One2Many('treatment.materialbalance',
         'material_balance', "Material Balance",
@@ -112,7 +115,31 @@ class WorkType( metaclass=PoolMeta):
             },
         depends=['fd_boolean']
         )
-
+    mb = fields.One2Many('final.materialbalance',
+        'balance_table', "Material Balance Summary",
+        states={
+            'invisible': ~Eval('fd_boolean', True),
+            },
+        depends=['fd_boolean']
+        )
+    ed_mb = fields.One2Many('ed.materialbalance' , 'ed_balance' , "Material Balance Summary" , 
+        states={
+            'invisible': ~Eval('ed_boolean', True),
+            },
+        depends=['ed_boolean']
+        )
+    ww_mb = fields.One2Many('ww.materialbalance' , 'ww_balance' , "Material Balance Summary" , 
+        states={
+            'invisible': ~Eval('ww_boolean', True),
+            },
+        depends=['ww_boolean']
+        )
+    stripping = fields.One2Many('striping.materialbalance' , 'striping_balance' , "Material Balance Summary" , 
+        states={
+            'invisible': ~Eval('striping', True),
+            },
+        depends=['striping']
+        )
     @fields.depends('operation')
     def on_change_with_treatment_boolean(self, name=None):
         if (self.operation == None):
@@ -130,6 +157,33 @@ class WorkType( metaclass=PoolMeta):
                 print("final distillation")
                 return True
 
+
+    @fields.depends('operation')
+    def on_change_with_ed_boolean(self, name=None):
+        if (self.operation == None):
+            return False
+        else:
+            if (self.operation.operation_type == 'extractive_distilation'):
+                print("Extractive distillation")
+                return True
+
+    @fields.depends('operation')
+    def on_change_with_ww_boolean(self, name=None):
+        if (self.operation == None):
+            return False
+        else:
+            if (self.operation.operation_type == 'water_washing'):
+                print("Water Washing")
+                return True
+
+    @fields.depends('operation')
+    def on_change_with_striping(self, name=None):
+        if (self.operation == None):
+            return False
+        else:
+            if (self.operation.operation_type == 'stripping'):
+                print("Striping")
+                return True        
 class TreatmentFreeParameter(ModelSQL,ModelView):
     "Treatment Free Parameters"
     __name__ = "treatment.freeparameter"
@@ -178,3 +232,48 @@ class FinalDistillationAnalysis(ModelSQL,ModelView):
     density = fields.Char("Density")
     purity = fields.Char("Purity By GC")
 
+class DistillationMaterialBalanceSummary(ModelSQL,ModelView):
+    "Distillation Material Balance Summary"
+    __name__ = "final.materialbalance"
+    balance_table = fields.Many2One('production.work','Material Balance Summary')
+    inputqty = fields.Char("Input qty")
+    water = fields.Char("Water")
+    f1 = fields.Char("F-1")
+    f2 = fields.Char("F-2")
+    main = fields.Char("Main")
+    aftermain = fields.Char("After Main")
+    residue = fields.Char("Residue")
+    loss = fields.Char("Loss")
+
+class ExtractiveDistillaion(ModelSQL,ModelView):
+    "Extractive Distillation"
+    __name__ = "ed.materialbalance"
+    ed_balance = fields.Many2One('production.work' , 'Material Balance Summary')
+    inputqty = fields.Char("Input")
+    mix = fields.Char("f-1 mix")
+    f1 = fields.Char("recycleable f-1")
+    main = fields.Char("stripping main")
+    after = fields.Char("after main")
+    bottom = fields.Char("bottom")
+    dist = fields.Char("dist.loss")
+
+class WaterWashing(ModelSQL,ModelView):
+    "Water Washing Balance Summary"
+    __name__ = "ww.materialbalance"
+    ww_balance = fields.Many2One('production.work' , 'Material Balance Summary')
+    inputqty = fields.Char("Input")
+    output = fields.Char("Output")
+    loss = fields.Char("Loss")
+    water = fields.Char("consumption of water")
+
+class Stripping(ModelSQL,ModelView):
+    "Stripping Balance Summary"
+    __name__ = "striping.materialbalance"
+    striping_balance = fields.Many2One('production.work' , 'Material Balance Summary')
+    inputqty = fields.Char("Input")
+    mix = fields.Char("f-1 mix")
+    f1 = fields.Char("recycleable f-1")
+    main = fields.Char("stripping main")
+    after = fields.Char("after main")
+    bottom = fields.Char("bottom")
+    dist = fields.Char("dist.loss")

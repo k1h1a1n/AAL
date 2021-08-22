@@ -51,5 +51,49 @@
             <field name="type">form</field>
             <field name="name">fd_analysis_form</field>
         </record>
+
+        <record model="ir.ui.view" id="fd_mb_view_tree">
+            <field name="model">final.materialbalance</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">fd_mb_tree</field>
+        </record>
+        <record model="ir.ui.view" id="fd_mb_view_form">
+            <field name="model">final.materialbalance</field>
+            <field name="type">form</field>
+            <field name="name">fd_mb_form</field>
+        </record>
+
+        <record model="ir.ui.view" id="ed_mb_view_tree">
+            <field name="model">ed.materialbalance</field>   <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">ed_mb_tree</field>
+        </record>
+        <record model="ir.ui.view" id="ed_mb_view_form">
+            <field name="model">ed.materialbalance</field>
+            <field name="type">form</field>
+            <field name="name">ed_mb_form</field>
+        </record>
+
+        <record model="ir.ui.view" id="ww_mb_view_tree">
+            <field name="model">ww.materialbalance</field>  <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">ww_mb_tree</field>
+        </record>
+        <record model="ir.ui.view" id="ww_mb_view_form">
+            <field name="model">ww.materialbalance</field>
+            <field name="type">form</field>
+            <field name="name">ww_mb_form</field>
+        </record>
+
+        <record model="ir.ui.view" id="stripping_mb_view_tree">
+            <field name="model">striping.materialbalance</field>  <!--change in .py -->
+            <field name="type">tree</field>
+            <field name="name">striping_mb_tree</field>
+        </record>
+        <record model="ir.ui.view" id="stripping_mb_view_form">
+            <field name="model">striping.materialbalance</field>
+            <field name="type">form</field>
+            <field name="name">striping_mb_form</field>
+        </record>
     </data>
 </tryton>
