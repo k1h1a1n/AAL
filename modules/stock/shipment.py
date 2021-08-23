@@ -85,6 +85,7 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         states={
                 'invisible': Eval('bulk',False)
                 })
+    sum = fields.Integer('Total drums')
     vehicle_no = fields.Char('Vehicle Number',
         states={
                 'invisible': ~Eval('bulk',False)
@@ -211,9 +212,23 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         ], 'State', readonly=True,
         help="The current state of the shipment.")
 
-    # @fields.depends('ms')
-    # def on_change_ms(self):
-    #     sum+=
+    @staticmethod
+    def default_ms():
+        return 0
+    
+    @staticmethod
+    def default_pvc():
+        return 0
+
+    @staticmethod
+    def default_gi():
+        return 0
+
+    @fields.depends('gi')
+    @fields.depends('ms')
+    @fields.depends('pvc')
+    def on_change_with_sum(self, name=None):
+        return (self.gi+self.ms+self.pvc)
 
     @classmethod
     def __setup__(cls):

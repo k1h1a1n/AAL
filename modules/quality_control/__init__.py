@@ -21,7 +21,7 @@ def register():
         qualitycontrol.PostProductionAnalysis,
         qualitycontrol.PostProductionAnalysis1,
         qualitycontrol.PreProductionLabCritarea1,
-        qualitycontrol.PreProductionCustomerSpecification,
+        # qualitycontrol.PreProductionCustomerSpecification,
         qualitycontrol.PreProductionRejectedAnalysis,
         qualitycontrol.PreProductionLabCritarea,
         qualitycontrol.QualityControlPreproduction,

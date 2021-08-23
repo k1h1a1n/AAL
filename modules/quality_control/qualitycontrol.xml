@@ -68,18 +68,7 @@
             <field name="name">pre_qualitycontrol_rejectedanlaysis_form</field>
         </record>
 
-        <!-- Pre Production Customer Specification -->
-
-        <record model="ir.ui.view" id="pre_qualitycontrol_customer_view_tree">
-            <field name="model">preproduction.customer.analysis</field>   <!--change in .py -->
-            <field name="type">tree</field>
-            <field name="name">pre_qualitycontrol_customer_tree</field>
-        </record>
-        <record model="ir.ui.view" id="pre_qualitycontrol_customer_view_form">
-            <field name="model">preproduction.customer.analysis</field>
-            <field name="type">form</field>
-            <field name="name">pre_qualitycontrol_customer_form</field>
-        </record>
+       
 
          <!-- Pre Production Deviation Table -->
          <record model="ir.ui.view" id="deviation_view_tree">

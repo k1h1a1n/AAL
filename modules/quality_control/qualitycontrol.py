@@ -29,8 +29,6 @@ class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
         'pre_production_lab1_id', 'Analysis Report')
     rejected = fields.One2Many('preproduction.rejected.analysis',
         'pre_production_rejected_id', 'GC Analysis')
-    customer = fields.One2Many('preproduction.customer.analysis', 
-        'pre_production_customer_id' , 'Customer Specification')
     colour = fields.Char("Colour")
     ph = fields.Char("ph")
     moisture = fields.Char("%Moisture")
@@ -42,6 +40,10 @@ class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
     graph = fields.Binary("Graph Upload")
     my_deviation_table = fields.One2Many('preproduction.deviation','deviation_table','Deviation Table')
 
+    ph1 = fields.Char("ph")
+    moisture1 = fields.Char("%Moisture")
+    peroxide = fields.Char("Peroxide Value(ppm)")
+    purity1 = fields.Char("Purity by GC")
     state = fields.Selection([
             ('draft', 'Draft'),
             ('approved', 'Approved'),
@@ -121,12 +123,12 @@ class PreProductionRejectedAnalysis(ModelSQL,ModelView):
     parameter = fields.Char("Parameter")
     value = fields.Char("Value")
 
-class PreProductionCustomerSpecification(ModelSQL,ModelView):
-    "Customer Specification"
-    __name__ = "preproduction.customer.analysis"
-    pre_production_customer_id = fields.Many2One('quality.control.preproduction' , 'Customer Id')
-    parameter = fields.Char("Parameter")
-    value = fields.Char("Value")
+# class PreProductionCustomerSpecification(ModelSQL,ModelView):
+#     "Customer Specification"
+#     __name__ = "preproduction.customer.analysis"
+#     pre_production_customer_id = fields.Many2One('quality.control.preproduction' , 'Customer Id')
+#     parameter = fields.Char("Parameter")
+#     value = fields.Char("Value")
 
 # POST PRODUCTION
 

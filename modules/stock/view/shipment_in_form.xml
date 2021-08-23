@@ -29,6 +29,9 @@ this repository contains the full copyright notices and license terms. -->
         <field name="gi" xexpand="0" width="25"/>
          <label name="pvc"/>
         <field name="pvc" xexpand="0" width="25"/>
+        <newline/>
+        <label name="sum"/>
+        <field name="sum" xexpand="0" width="25"/>
          
         <!-- Add here some checkboxes ! -->
     </group>
