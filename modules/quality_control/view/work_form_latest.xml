@@ -1,6 +1,12 @@
 <?xml version="1.0"?>
 <data>
     <xpath expr="/form/field[@name='operation']" position="after">
+    <field name="ww_mb" colspan="4" 
+    view_ids="quality_control.ww_mb_view_tree,quality_control.ww_mb_view_form"/>
+    <field name="stripping" colspan="4" 
+    view_ids="quality_control.stripping_mb_view_tree,quality_control.stripping_mb_view_form"/>
+    <field name="ed_mb" colspan="4" 
+    view_ids="quality_control.ed_mb_view_tree,quality_control.ed_mb_view_form"/> 
     <group id="test_234"  colspan="4">
     <label name="quantitytaken"/>
     <field name="quantitytaken" colspan="3"/>
@@ -23,5 +29,25 @@
     </group>
     <field name="materialbalance" colspan="4" 
     view_ids="quality_control.materialbalance_view_tree,quality_control.materialbalance_view_form"/>
+    <field name="distillation_input" colspan="4" 
+    view_ids="quality_control.fd_inputdetails_view_tree,quality_control.fd_inputdetails_view_form"/>
+    <group id="tet_234" colspan="4">
+    <!-- <separator string="" id="rest" colspan="4"/>
+    <separator string="Analysis of rejected material" id="rests" colspan="4"/> -->
+    <label name="first"/>
+    <field name="first"/>
+    <label name="second"/>
+    <field name="second"/>
+    <label name="third"/>
+    <field name="third"/>
+    <label name="fourth"/>
+    <field name="fourth"/>
+    <label name="fifth"/>
+    <field name="fifth"/>
+    <field name="analysis" colspan="4" 
+    view_ids="quality_control.fd_analysis_view_tree,quality_control.fd_analysis_view_form"/>
+    <field name="mb" colspan="4" 
+    view_ids="quality_control.fd_mb_view_tree,quality_control.fd_mb_view_form"/>
+    </group>
     </xpath>
 </data>
