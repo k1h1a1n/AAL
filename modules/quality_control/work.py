@@ -1,6 +1,7 @@
-from trytond.model import ModelSQL, ModelView,fields
+from trytond.model import ModelSQL, ModelView,fields ,Workflow
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import  Eval
+from trytond.exceptions import UserError, UserWarning
 
 class WorkType( metaclass=PoolMeta):
 
@@ -47,14 +48,47 @@ class WorkType( metaclass=PoolMeta):
     ed_boolean = fields.Boolean('Extractive Distillation')
     ww_boolean = fields.Boolean('Water Washing')
     striping = fields.Boolean('Striping')
+   
+    # treatment material balance
 
-    materialbalance = fields.One2Many('treatment.materialbalance',
-        'material_balance', "Material Balance",
-        states={
+    # materialbalance = fields.One2Many('treatment.materialbalance',
+    #     'material_balance', "Material Balance",
+    #     states={
+    #         'invisible': ~Eval('treatment_boolean', True),
+    #         },
+    #     depends=['treatment_boolean']
+    #     )
+
+    treatment_input_qty = fields.Integer("Input qty",states={
             'invisible': ~Eval('treatment_boolean', True),
-            },
-        depends=['treatment_boolean']
-        )
+            },depends=['treatment_boolean'])
+    treatment_output_qty = fields.Numeric("Output qty",states={
+            'invisible': ~Eval('treatment_boolean', True),
+            },depends=['treatment_boolean'])
+    treatment_loss = fields.Numeric("Loss",states={
+            'invisible': ~Eval('treatment_boolean', True),
+            },depends=['treatment_boolean'])
+    treatment_lye_collected = fields.Numeric("Lye collected",states={
+            'invisible': ~Eval('treatment_boolean', True),
+            },depends=['treatment_boolean'])
+
+    treatment_input_qty_percent = fields.Function(fields.Float("Input qty",states={
+            'invisible': ~Eval('treatment_boolean', True)
+            },depends=['treatment_boolean']),'get_treatment_input_qty_percent')
+
+    treatment_output_qty_percent = fields.Function(fields.Float("Output qty",states={
+            'invisible': ~Eval('treatment_boolean', True),
+            },depends=['treatment_boolean']),'on_change_with_treatment_output_qty_percent') 
+
+    treatment_loss_percent = fields.Function(fields.Float("Loss",states={
+            'invisible': ~Eval('treatment_boolean', True),
+            },depends=['treatment_boolean']),'on_change_with_treatment_loss_percent')
+            
+    treatment_lye_collected_percent = fields.Function(fields.Float("Loss",states={
+            'invisible': ~Eval('treatment_boolean', True),
+            },depends=['treatment_boolean']),'on_change_with_treatment_lye_collected_percent')
+
+
     qty_sulphuric = fields.Char("Quantity of Sulfuric acid used for ph adjustment" ,
         states={
             'invisible': ~Eval('treatment_boolean', True),
@@ -115,13 +149,61 @@ class WorkType( metaclass=PoolMeta):
             },
         depends=['fd_boolean']
         )
-    mb = fields.One2Many('final.materialbalance',
-        'balance_table', "Material Balance Summary",
-        states={
+
+    # Final Distilaltion material balance
+
+    # mb = fields.One2Many('final.materialbalance',
+    #     'balance_table', "Material Balance Summary",
+    #     states={
+    #         'invisible': ~Eval('fd_boolean', True),
+    #         },
+    #     depends=['fd_boolean']
+    #     )
+    # balance_table = fields.Many2One('production.work','Material Balance Summary')
+    fd_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_water = fields.Numeric("Water",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_f1 = fields.Numeric("F-1",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_f2 = fields.Numeric("F-2",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_main = fields.Numeric("Main",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_aftermain = fields.Numeric("After Main",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_residue = fields.Numeric("Residue",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_loss = fields.Numeric("Loss",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+
+    fd_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={
             'invisible': ~Eval('fd_boolean', True),
-            },
-        depends=['fd_boolean']
-        )
+            },depends=['fd_boolean']),'on_change_with_fd_mb_inputqty_percent')
+    
+    fd_mb_water_percent =fields.Function(fields.Float("Water",states={
+            'invisible': ~Eval('fd_boolean', True),
+            },depends=['fd_boolean']),'on_change_with_fd_mb_water_percent')
+    
+    fd_mb_f1_percent = fields.Function(fields.Float("F-1",states={
+            'invisible': ~Eval('fd_boolean', True),
+            },depends=['fd_boolean']),'on_change_with_fd_mb_f1_percent')
+
+    fd_mb_f2_percent = fields.Function(fields.Float("F-2",states={
+            'invisible': ~Eval('fd_boolean', True),
+            },depends=['fd_boolean']),'on_change_with_fd_mb_f2_percent')
+    
+    fd_mb_main_percent = fields.Function(fields.Float("Main",states={
+            'invisible': ~Eval('fd_boolean', True),
+            },depends=['fd_boolean']),'on_change_with_fd_mb_main_percent')
+    
+    fd_mb_aftermain_percent = fields.Function(fields.Float("AfterMain",states={
+            'invisible': ~Eval('fd_boolean', True),
+            },depends=['fd_boolean']),'on_change_with_fd_mb_aftermain_percent')
+    
+    fd_mb_residue_percent  = fields.Function(fields.Float("Residue",states={
+            'invisible': ~Eval('fd_boolean', True),
+            },depends=['fd_boolean']),'on_change_with_fd_mb_residue_percent') 
+    
+    fd_mb_loss_percent = fields.Function(fields.Float("Loss",states={
+            'invisible': ~Eval('fd_boolean', True),
+            },depends=['fd_boolean']),'on_change_with_fd_mb_loss_percent') 
+
+
+
+
     ed_mb = fields.One2Many('ed.materialbalance' , 'ed_balance' , "Material Balance Summary" , 
         states={
             'invisible': ~Eval('ed_boolean', True),
@@ -140,6 +222,210 @@ class WorkType( metaclass=PoolMeta):
             },
         depends=['striping']
         )
+
+    @classmethod
+    def __setup__(cls):
+        super(WorkType, cls).__setup__()
+        cls._buttons.update({
+            'validate_mb_treatment': {
+                        'invisible': ~Eval('treatment_boolean', True),
+                        'depends': ['treatment_boolean'],
+                        },
+            'validate_mb_fd': {
+                        'invisible': ~Eval('fd_boolean', True),
+                        'depends': ['fd_boolean'],
+                        },
+            })
+
+
+    # mb treatment
+
+    @staticmethod
+    def default_treatment_input_qty():
+        return 0
+    @staticmethod
+    def default_treatment_output_qty():
+        return 0
+    @staticmethod
+    def default_treatment_loss():
+        return 0
+    @staticmethod
+    def default_treatment_lye_collected():
+        return 0
+    
+    def get_treatment_input_qty_percent(self,name):
+        return 100
+    
+
+    @fields.depends('treatment_output_qty','treatment_input_qty') 
+    def on_change_with_treatment_output_qty_percent(self, name=None):
+        try:
+            test = self.treatment_output_qty/self.treatment_input_qty
+            percent = test*100 
+            return percent
+            
+        except ZeroDivisionError:
+            return 0
+    @fields.depends('treatment_loss','treatment_input_qty') 
+    def on_change_with_treatment_loss_percent(self, name=None):
+        try:
+            treatment_loss = self.treatment_loss
+            treatment_input_qty = self.treatment_input_qty
+            test = treatment_loss/treatment_input_qty 
+            percent = test*100 
+            return percent
+            
+        except ZeroDivisionError:
+            return 0                
+
+    @fields.depends('treatment_lye_collected','treatment_input_qty') 
+    def on_change_with_treatment_lye_collected_percent(self, name=None):
+        try:
+            percent = (self.treatment_lye_collected/self.treatment_input_qty)*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @ModelView.button_change('treatment_output_qty','treatment_input_qty', 'treatment_loss', 'treatment_lye_collected')
+    def validate_mb_treatment(self):
+        sums = self.treatment_output_qty + self.treatment_loss + self.treatment_lye_collected
+
+        if self.treatment_input_qty == sums:
+            
+            raise UserError("Value Matched","All Value Matched")
+        else :
+            raise UserError("Failed","Value Does not Match")    
+    
+    #mb Final Distillation
+    
+    @staticmethod
+    def default_fd_mb_inputqty():
+        return 0
+    
+    @staticmethod
+    def default_fd_mb_water():
+        return 0
+    
+    @staticmethod
+    def default_fd_mb_f1():
+        return 0
+    
+    @staticmethod
+    def default_fd_mb_f2():
+        return 0
+    
+    @staticmethod
+    def default_fd_mb_main():
+        return 0
+    
+    @staticmethod
+    def default_fd_mb_aftermain():
+        return 0
+    
+    @staticmethod
+    def default_fd_mb_residue():
+        return 0
+    
+    @staticmethod
+    def default_fd_mb_loss():
+        return 0
+
+
+    @fields.depends('fd_mb_inputqty') 
+    def on_change_with_fd_mb_inputqty_percent(self, name=None):
+        return 100
+    
+    @fields.depends('fd_mb_inputqty','fd_mb_water') 
+    def on_change_with_fd_mb_water_percent(self, name=None):
+        try:
+            test = self.fd_mb_water/self.fd_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @fields.depends('fd_mb_inputqty','fd_mb_f1') 
+    def on_change_with_fd_mb_f1_percent(self,name=None):
+        try:
+            test = self.fd_mb_f1/self.fd_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('fd_mb_inputqty','fd_mb_f2')
+    def on_change_with_fd_mb_f2_percent(self,name=None):
+        try:
+            test = self.fd_mb_f2/self.fd_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('fd_mb_inputqty','fd_mb_main')
+    def on_change_with_fd_mb_main_percent(self,name=None):
+        try:
+            test = self.fd_mb_main/self.fd_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('fd_mb_inputqty','fd_mb_aftermain')
+    def on_change_with_fd_mb_aftermain_percent(self,name=None):
+        try:
+            test = self.fd_mb_aftermain/self.fd_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('fd_mb_inputqty','fd_mb_residue')
+    def on_change_with_fd_mb_residue_percent(self,name=None):
+        try:
+            test = self.fd_mb_residue/self.fd_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('fd_mb_inputqty','fd_mb_loss')
+    def on_change_with_fd_mb_loss_percent(self,name=None):
+        try:
+            test = self.fd_mb_loss/self.fd_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @ModelView.button_change('fd_mb_inputqty','fd_mb_loss', 'fd_mb_residue', 'fd_mb_aftermain','fd_mb_main','fd_mb_f2','fd_mb_f1','fd_mb_water')
+    def validate_mb_fd(self):
+        sums = self.fd_mb_loss + self.fd_mb_residue + self.fd_mb_aftermain + self.fd_mb_main + self.fd_mb_f2 + self.fd_mb_f1 + self.fd_mb_water
+
+        if self.fd_mb_inputqty == sums:
+            
+            raise UserError("Value Matched","All Value Matched")
+        else :
+            raise UserError("Failed","Value Does not Match") 
+    
+    
+    
+    
+
+
+
+        
+    
+
+
+    
+    
+    
+
+    
+        
+        
+    
     @fields.depends('operation')
     def on_change_with_treatment_boolean(self, name=None):
         if (self.operation == None):
@@ -190,10 +476,11 @@ class TreatmentFreeParameter(ModelSQL,ModelView):
     free_parameter = fields.Many2One('production.work' , 'Free Parameter Id')
     srno = fields.Char("Sr.No")
     rm_addition_details = fields.Char("RM addition details")
-    lye_colected = fields.Char("Lye collected")
+    lye_colected = fields.Char("Quantity Consumed")
     m_c = fields.Char("%M/c")
     preoxide_value  = fields.Char("Preoxide value")
-    sign = fields.Char("Sign")
+    sign  = fields.Char("Sign")
+    
 
 class TreatmentMaterialBalance(ModelSQL,ModelView):
     "Treatment Material Balance"
@@ -208,7 +495,8 @@ class FinalDistillationInput(ModelSQL,ModelView):
     "Final Distilaltion Input Details"
     __name__ = "finaldistillation.input"
     input_details = fields.Many2One('production.work' , 'Final Distillation Input Id')
-    name = fields.Char("Name of material")
+    product = fields.Many2One('product.product' , 'Name of Material' ,
+        domain=[('producible', '=', True)])
     unit = fields.Char("Unit")
     quantity = fields.Char("Qty taken for distillation")
 

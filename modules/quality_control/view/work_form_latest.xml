@@ -27,8 +27,34 @@
     <label name="qty_bht"/>
     <field name="qty_bht"/>
     </group>
-    <field name="materialbalance" colspan="4" 
-    view_ids="quality_control.materialbalance_view_tree,quality_control.materialbalance_view_form"/>
+    <!-- <field name="materialbalance" colspan="4" 
+    view_ids="quality_control.materialbalance_view_tree,quality_control.materialbalance_view_form"/> -->
+    <separator name="treatment_input_qty" id="treatment_mb_seperator" string="Material Balance" colspan="6" />
+   
+    <label name="treatment_input_qty"/>
+    <field name="treatment_input_qty"/>
+    <label name="treatment_output_qty"/>
+    <field name="treatment_output_qty"/>
+    <label name="treatment_loss"/>
+    <field name="treatment_loss"/>
+    <label name="treatment_lye_collected"/>
+    <field name="treatment_lye_collected"/>
+
+    <separator name="treatment_input_qty" id="treatment_mb_seperator_percent" string="Material Balance %" colspan="6" />
+    <label name="treatment_input_qty_percent"/>
+    <field name="treatment_input_qty_percent"/>
+    <label name="treatment_output_qty_percent"/>
+    <field name="treatment_output_qty_percent"/>
+    <label name="treatment_loss_percent"/>
+    <field name="treatment_loss_percent"/>
+    <label name="treatment_lye_collected_percent"/>
+    <field name="treatment_lye_collected_percent"/>
+
+    <button name="validate_mb_treatment" colspan="2"/>
+    
+
+
+    
     <field name="distillation_input" colspan="4" 
     view_ids="quality_control.fd_inputdetails_view_tree,quality_control.fd_inputdetails_view_form"/>
     <group id="tet_234" colspan="4">
@@ -46,8 +72,46 @@
     <field name="fifth"/>
     <field name="analysis" colspan="4" 
     view_ids="quality_control.fd_analysis_view_tree,quality_control.fd_analysis_view_form"/>
-    <field name="mb" colspan="4" 
-    view_ids="quality_control.fd_mb_view_tree,quality_control.fd_mb_view_form"/>
+    <!-- <field name="mb" colspan="4" 
+    view_ids="quality_control.fd_mb_view_tree,quality_control.fd_mb_view_form"/> -->
+    <separator name="fd_mb_inputqty" id="final_distillation_mb_seperator" string="Material Balance" colspan="6" />
+    <label name="fd_mb_inputqty"/>
+    <field name="fd_mb_inputqty"/>
+    <label name="fd_mb_water"/>
+    <field name="fd_mb_water"/>
+    <label name="fd_mb_f1"/>
+    <field name="fd_mb_f1"/>
+    <label name="fd_mb_f2"/>
+    <field name="fd_mb_f2"/>
+    <label name="fd_mb_main"/>
+    <field name="fd_mb_main"/>
+    <label name="fd_mb_aftermain"/>
+    <field name="fd_mb_aftermain"/>    
+    <label name="fd_mb_residue"/>
+    <field name="fd_mb_residue"/>
+    <label name="fd_mb_loss"/>
+    <field name="fd_mb_loss"/>
+
+    <separator name="fd_mb_inputqty" id="final_distillation_mb_percent_seperator" string="Material Balance %" colspan="6" /> 
+    <label name="fd_mb_inputqty_percent"/>
+    <field name="fd_mb_inputqty_percent"/>
+    <label name="fd_mb_water_percent"/>
+    <field name="fd_mb_water_percent"/>
+    <label name="fd_mb_f1_percent"/>
+    <field name="fd_mb_f1_percent"/>
+    <label name="fd_mb_f2_percent"/>
+    <field name="fd_mb_f2_percent"/>
+    <label name="fd_mb_main_percent"/>
+    <field name="fd_mb_main_percent"/>
+    <label name="fd_mb_aftermain_percent"/>
+    <field name="fd_mb_aftermain_percent"/>
+    <label name="fd_mb_residue_percent"/>
+    <field name="fd_mb_residue_percent"/>
+    <label name="fd_mb_loss_percent"/>
+    <field name="fd_mb_loss_percent"/>
+    <button name="validate_mb_fd" colspan="2"/>
+
+
     </group>
     </xpath>
 </data>

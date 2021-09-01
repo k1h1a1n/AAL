@@ -90,10 +90,24 @@
             <field name="type">tree</field>
             <field name="name">striping_mb_tree</field>
         </record>
+
         <record model="ir.ui.view" id="stripping_mb_view_form">
             <field name="model">striping.materialbalance</field>
             <field name="type">form</field>
             <field name="name">striping_mb_form</field>
         </record>
+        
+        <!-- materialbalance treatment button -->
+        <record model="ir.model.button" id="validate_mb_treatment_button">
+                <field name="name">validate_mb_treatment</field>
+                <field name="string">Validate</field>
+                <field name="model"  search="[('model', '=', 'production.work')]"/>
+        </record>
+        <record model="ir.model.button" id="validate_mb_fd_button">
+                <field name="name">validate_mb_fd</field>
+                <field name="string">Validate</field>
+                <field name="model"  search="[('model', '=', 'production.work')]"/>
+        </record>
+
     </data>
 </tryton>
