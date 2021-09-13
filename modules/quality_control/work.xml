@@ -109,5 +109,18 @@
                 <field name="model"  search="[('model', '=', 'production.work')]"/>
         </record>
 
+         <record model="ir.model.button" id="validate_mb_stripping_button">
+                <field name="name">validate_mb_stripping</field>
+                <field name="string">Validate</field>
+                <field name="model"  search="[('model', '=', 'production.work')]"/>
+        </record>
+        <record model="ir.model.button" id="validate_mb_ww_button">
+                <field name="name">validate_mb_ww</field>
+                <field name="string">Validate</field>
+                <field name="model"  search="[('model', '=', 'production.work')]"/>
+        </record>
+
+
+
     </data>
 </tryton>

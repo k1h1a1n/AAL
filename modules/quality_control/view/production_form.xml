@@ -20,10 +20,27 @@ this repository contains the full copyright notices and license terms. -->
 
     </xpath> -->
     <xpath expr="/form/label[@name='state']" position="before">
-        <field name="material_balance_table" colspan="4" 
-    view_ids="quality_control.material_balance_view_tree,quality_control.material_balance_view_form"/>
-    
+        <separator string="Material Balance Summary" colspan="6" id="material_balance"/>
+        <label name="inputqty"/>
+        <field name="inputqty"/>
+        <label name="water"/>
+        <field name="water"/>
+        <label name="f1"/>
+        <field name="f1"/>        
+        <label name="f2"/>
+        <field name="f2"/>
+        <label name="main"/>
+        <field name="main"/>
+        <label name="aftermain"/>
+        <field name="aftermain"/>
+        <label name="residue"/>
+        <field name="residue"/>
+        <label name="loss"/>
+        <field name="loss"/>
+        <newline/>
+
     </xpath>
+    
     <xpath expr="/form/notebook" position="before">
         <newline/>
         <!-- <label name="party"/>

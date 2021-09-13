@@ -17,15 +17,6 @@
             <field name="name">temp_analysis_record_form</field>
         </record>
 
-        <record model="ir.ui.view" id="material_balance_view_tree">
-            <field name="model">material.balance</field>   <!--change in .py -->
-            <field name="type">tree</field>
-            <field name="name">material_balance_tree</field>
-        </record>
-        <record model="ir.ui.view" id="material_balance_view_form">
-            <field name="model">material.balance</field>
-            <field name="type">form</field>
-            <field name="name">material_balance_form</field>
-        </record>
+        
   </data>
 </tryton>

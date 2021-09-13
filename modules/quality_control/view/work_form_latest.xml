@@ -1,10 +1,74 @@
 <?xml version="1.0"?>
 <data>
     <xpath expr="/form/field[@name='operation']" position="after">
-    <field name="ww_mb" colspan="4" 
-    view_ids="quality_control.ww_mb_view_tree,quality_control.ww_mb_view_form"/>
-    <field name="stripping" colspan="4" 
-    view_ids="quality_control.stripping_mb_view_tree,quality_control.stripping_mb_view_form"/>
+    <!-- <field name="ww_mb" colspan="4" 
+    view_ids="quality_control.ww_mb_view_tree,quality_control.ww_mb_view_form"/> -->
+
+    <separator name="ww_mb_inputqty" id="ww_mb_seperator" string="Material Balance" colspan="6" />
+    <label name="ww_mb_inputqty"/>
+    <field name="ww_mb_inputqty"/>
+    <label name="ww_mb_output"/>
+    <field name="ww_mb_output"/>
+    <label name="ww_mb_loss"/>
+    <field name="ww_mb_loss"/>
+    <label name="ww_mb_consumption"/>
+    <field name="ww_mb_consumption"/>
+
+    <separator name="ww_mb_inputqty" id="ww_mb_seperator_percent" string="Material Balance%" colspan="6" />
+    <label name="ww_mb_inputqty_percent"/>
+    <field name="ww_mb_inputqty_percent"/>
+    <label name="ww_mb_output_percent"/>
+    <field name="ww_mb_output_percent"/>
+    <label name="ww_mb_loss_percent"/>
+    <field name="ww_mb_loss_percent"/>
+    <label name="ww_mb_consumption_percent"/>
+    <field name="ww_mb_consumption_percent"/>
+
+    <button name="validate_mb_ww" colspan="2"/>
+
+
+
+
+    <!-- <field name="stripping" colspan="4" 
+    view_ids="quality_control.stripping_mb_view_tree,quality_control.stripping_mb_view_form"/> -->
+    <separator name="st_mb_inputqty" id="stripping_mb_seperator" string="Material Balance" colspan="6" />
+    <label name="st_mb_inputqty"/>
+    <field name="st_mb_inputqty"/>
+    <label name="st_mb_f1_mix"/>
+    <field name="st_mb_f1_mix"/>
+    <label name="st_mb_recyclable_f1"/>
+    <field name="st_mb_recyclable_f1"/>
+    <label name="st_mb_strippingmain"/>
+    <field name="st_mb_strippingmain"/>
+    <label name="st_mb_aftermain"/>
+    <field name="st_mb_aftermain"/>
+    <label name="st_mb_bottom"/>
+    <field name="st_mb_bottom"/>
+    <label name="st_mb_dist_loss"/>
+    <field name="st_mb_dist_loss"/>
+    
+
+
+    <separator name="st_mb_inputqty" id="stripping_mb_seperator_percent" string="Material Balance%" colspan="6" />
+    <label name="st_mb_inputqty_percent"/>
+    <field name="st_mb_inputqty_percent"/>
+    <label name="st_mb_f1_mix_percent"/>
+    <field name="st_mb_f1_mix_percent"/>
+    <label name="st_mb_recyclable_f1_percent"/>
+    <field name="st_mb_recyclable_f1_percent"/>
+    <label name="st_mb_strippingmain_percent"/>
+    <field name="st_mb_strippingmain_percent"/>
+    <label name="st_mb_aftermain_percent"/>
+    <field name="st_mb_aftermain_percent"/>
+    <label name="st_mb_bottom_percent"/>
+    <field name="st_mb_bottom_percent"/>
+    <label name="st_mb_dist_loss_percent"/>
+    <field name="st_mb_dist_loss_percent"/>
+
+    <button name="validate_mb_stripping" colspan="2"/>
+
+
+   
     <field name="ed_mb" colspan="4" 
     view_ids="quality_control.ed_mb_view_tree,quality_control.ed_mb_view_form"/> 
     <group id="test_234"  colspan="4">

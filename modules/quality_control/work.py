@@ -210,19 +210,76 @@ class WorkType( metaclass=PoolMeta):
             },
         depends=['ed_boolean']
         )
-    ww_mb = fields.One2Many('ww.materialbalance' , 'ww_balance' , "Material Balance Summary" , 
-        states={
-            'invisible': ~Eval('ww_boolean', True),
-            },
-        depends=['ww_boolean']
-        )
-    stripping = fields.One2Many('striping.materialbalance' , 'striping_balance' , "Material Balance Summary" , 
-        states={
-            'invisible': ~Eval('striping', True),
-            },
-        depends=['striping']
-        )
 
+    #Water washing    
+    # ww_mb = fields.One2Many('ww.materialbalance' , 'ww_balance' , "Material Balance Summary" , 
+    #     states={
+    #         'invisible': ~Eval('ww_boolean', True),
+    #         },
+    #     depends=['ww_boolean']
+    #     )
+    
+    ww_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
+    ww_mb_output = fields.Numeric("Output",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
+    ww_mb_loss = fields.Numeric("Loss",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
+    ww_mb_consumption = fields.Numeric("Consumption of water",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
+
+
+    ww_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={
+            'invisible': ~Eval('ww_boolean', True),
+            },depends=['ww_boolean']),'on_change_with_ww_mb_inputqty_percent')
+
+    ww_mb_output_percent =fields.Function(fields.Float("Output",states={
+            'invisible': ~Eval('ww_boolean', True),
+            },depends=['ww_boolean']),'on_change_with_ww_mb_output_percent')
+
+    ww_mb_loss_percent =fields.Function(fields.Float("Loss",states={
+            'invisible': ~Eval('ww_boolean', True),
+            },depends=['ww_boolean']),'on_change_with_ww_mb_loss_percent')
+
+    ww_mb_consumption_percent =fields.Function(fields.Float("Consumption of water",states={
+            'invisible': ~Eval('ww_boolean', True),
+            },depends=['ww_boolean']),'on_change_with_ww_mb_consumption_percent')
+
+
+
+    # stripping = fields.One2Many('striping.materialbalance' , 'striping_balance' , "Material Balance Summary" , 
+    #     states={
+    #         'invisible': ~Eval('striping', True),
+    #         },
+    #     depends=['striping']
+    #     )
+    st_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+    st_mb_f1_mix = fields.Numeric("F-1 mix",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+    st_mb_recyclable_f1 = fields.Numeric("Recyclable f-1",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+    st_mb_strippingmain = fields.Numeric("Stripping main",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+    st_mb_aftermain = fields.Numeric("After main",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+    st_mb_bottom = fields.Numeric("Bottom",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+    st_mb_dist_loss = fields.Numeric("dist.loss",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+
+
+    st_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={
+            'invisible': ~Eval('striping', True),
+            },depends=['striping']),'on_change_with_st_mb_inputqty_percent')
+    st_mb_f1_mix_percent =fields.Function(fields.Float("F-1 mix",states={
+            'invisible': ~Eval('striping', True),
+            },depends=['striping']),'on_change_with_st_mb_f1_mix_percent')
+    st_mb_recyclable_f1_percent =fields.Function(fields.Float("Recyclable f-1",states={
+            'invisible': ~Eval('striping', True),
+            },depends=['striping']),'on_change_with_st_mb_recyclable_f1_percent')
+    st_mb_aftermain_percent =fields.Function(fields.Float("After main",states={
+            'invisible': ~Eval('striping', True),
+            },depends=['striping']),'on_change_with_st_mb_aftermain_percent')
+    st_mb_bottom_percent =fields.Function(fields.Float("Bottom",states={
+            'invisible': ~Eval('striping', True),
+            },depends=['striping']),'on_change_with_st_mb_bottom_percent')
+    st_mb_dist_loss_percent =fields.Function(fields.Float("dist.loss",states={
+            'invisible': ~Eval('striping', True),
+            },depends=['striping']),'on_change_with_st_mb_dist_loss_percent')
+    st_mb_strippingmain_percent =fields.Function(fields.Float("Stripping main",states={
+            'invisible': ~Eval('striping', True),
+            },depends=['striping']),'on_change_with_st_mb_strippingmain_percent')
+   
     @classmethod
     def __setup__(cls):
         super(WorkType, cls).__setup__()
@@ -234,6 +291,14 @@ class WorkType( metaclass=PoolMeta):
             'validate_mb_fd': {
                         'invisible': ~Eval('fd_boolean', True),
                         'depends': ['fd_boolean'],
+                        },
+            'validate_mb_stripping': {
+                        'invisible': ~Eval('striping', True),
+                        'depends': ['striping'],
+                        },
+            'validate_mb_ww': {
+                        'invisible': ~Eval('ww_boolean', True),
+                        'depends': ['ww_boolean'],
                         },
             })
 
@@ -266,6 +331,7 @@ class WorkType( metaclass=PoolMeta):
             
         except ZeroDivisionError:
             return 0
+    
     @fields.depends('treatment_loss','treatment_input_qty') 
     def on_change_with_treatment_loss_percent(self, name=None):
         try:
@@ -408,13 +474,171 @@ class WorkType( metaclass=PoolMeta):
         else :
             raise UserError("Failed","Value Does not Match") 
     
-    
-    
-    
 
 
 
+    # striping material balance
+    @fields.depends('st_mb_inputqty') 
+    def on_change_with_st_mb_inputqty_percent(self, name=None):
+        return 100
+    
+    @fields.depends('st_mb_inputqty','st_mb_f1_mix')
+    def on_change_with_st_mb_f1_mix_percent(self,name=None):
+        try:
+            test = self.st_mb_f1_mix/self.st_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    
+    @fields.depends('st_mb_inputqty','st_mb_recyclable_f1')
+    def on_change_with_st_mb_recyclable_f1_percent(self,name=None):
+        try:
+            test = self.st_mb_recyclable_f1/self.st_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    
+    @fields.depends('st_mb_inputqty','st_mb_aftermain')
+    def on_change_with_st_mb_aftermain_percent(self,name=None):
+        try:
+            test = self.st_mb_aftermain/self.st_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @fields.depends('st_mb_inputqty','st_mb_strippingmain')
+    def on_change_with_st_mb_strippingmain_percent(self,name=None):
+        try:
+            test = self.st_mb_strippingmain/self.st_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('st_mb_inputqty','st_mb_bottom')
+    def on_change_with_st_mb_bottom_percent(self,name=None):
+        try:
+            test = self.st_mb_bottom/self.st_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @fields.depends('st_mb_inputqty','st_mb_dist_loss')
+    def on_change_with_st_mb_dist_loss_percent(self,name=None):
+        try:
+            test = self.st_mb_dist_loss/self.st_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @ModelView.button_change('st_mb_inputqty','st_mb_f1_mix', 'st_mb_recyclable_f1', 'st_mb_aftermain','st_mb_strippingmain','st_mb_bottom','st_mb_dist_loss')
+    def validate_mb_stripping(self):
+        sums = self.st_mb_f1_mix + self.st_mb_recyclable_f1 + self.st_mb_aftermain + self.st_mb_strippingmain + self.st_mb_bottom + self.st_mb_dist_loss
+
+        if self.st_mb_inputqty == sums:
+            
+            raise UserError("Value Matched","All Value Matched")
+        else :
+            raise UserError("Failed","Value Does not Match") 
+
+
+    @staticmethod
+    def default_st_mb_inputqty():
+        return 0
+
+    @staticmethod
+    def default_st_mb_f1_mix():
+        return 0
+
+    @staticmethod
+    def default_st_mb_recyclable_f1():
+        return 0
+
+    @staticmethod
+    def default_st_mb_strippingmain():
+        return 0
+
+    @staticmethod
+    def default_st_mb_aftermain():
+        return 0
+
+    @staticmethod
+    def default_st_mb_bottom():
+        return 0
+
+    @staticmethod
+    def default_st_mb_dist_loss():
+        return 0
+
+    # water washing
+    @staticmethod
+    def default_ww_mb_inputqty():
+        return 0
+    
+    @staticmethod
+    def default_ww_mb_output():
+        return 0
+
+    @staticmethod
+    def default_ww_mb_loss():
+        return 0
+
+    @staticmethod
+    def default_ww_mb_consumption():
+        return 0
+
+
+    @fields.depends('ww_mb_inputqty') 
+    def on_change_with_ww_mb_inputqty_percent(self, name=None):
+        return 100
+
+
+    @fields.depends('ww_mb_inputqty','ww_mb_output')
+    def on_change_with_ww_mb_output_percent(self,name=None):
+        try:
+            test = self.ww_mb_output/self.ww_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('ww_mb_inputqty','ww_mb_loss')
+    def on_change_with_ww_mb_loss_percent(self,name=None):
+        try:
+            test = self.ww_mb_loss/self.ww_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
         
+
+    @fields.depends('ww_mb_inputqty','ww_mb_consumption')
+    def on_change_with_ww_mb_consumption_percent(self,name=None):
+        try:
+            test = self.ww_mb_consumption/self.ww_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+
+    @ModelView.button_change('ww_mb_inputqty','ww_mb_output', 'ww_mb_loss', 'ww_mb_consumption')
+    def validate_mb_ww(self):
+        sums = self.ww_mb_output + self.ww_mb_loss + self.ww_mb_consumption 
+
+        if self.ww_mb_inputqty == sums:
+            
+            raise UserError("Value Matched","All Value Matched")
+        else :
+            raise UserError("Failed","Value Does not Match") 
+
     
 
 

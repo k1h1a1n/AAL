@@ -1,7 +1,7 @@
 from trytond.model import ModelSQL, ModelView, fields
 from trytond.pool import Pool, PoolMeta
 
-__all__ = ['QualityControlProduction','QualityShipmentIn','ProdShipment','TemperatureAnalysisRecord','MaterialBalanceSummary']
+__all__ = ['QualityControlProduction','QualityShipmentIn','ProdShipment','TemperatureAnalysisRecord'        ]
 
 class QualityControlProduction(ModelSQL, ModelView):
     "Quality Control Production"
@@ -11,8 +11,14 @@ class QualityControlProduction(ModelSQL, ModelView):
     reactorcapacity =  fields.Integer('Reactor Capacity')
     # details = fields.Text("Deviation Details")
     remarks = fields.Text("Remarks")
-    # temp_analysis = fields.One2Many('temp.analysis.record','temp_table','Temperature and Analysis Record')
-    material_balance_table = fields.One2Many('material.balance','balance_table','Material Balance Summary')
+    inputqty = fields.Char("Input qty")
+    water = fields.Char("Water")
+    f1 = fields.Char("F-1")
+    f2 = fields.Char("F-2")
+    main = fields.Char("Main")
+    aftermain = fields.Char("After Main")
+    residue = fields.Char("Residue")
+    loss = fields.Char("Loss")
     inwardno = fields.Many2Many('prod.shipment.relation',
         'prodid','shipid', 'Inward',domain=[
             ('state', '=', 'done'),
@@ -60,23 +66,3 @@ class TemperatureAnalysisRecord(ModelSQL,ModelView):
     purity5 = fields.Char(" ")
     sign = fields.Char("Sign")
 
-class MaterialBalanceSummary(ModelSQL,ModelView):
-    "Material Balance Summary"
-    __name__ = "material.balance"
-    balance_table = fields.Many2One('production','Material Balance Summary')
-    inputqty = fields.Char("Input qty")
-    water = fields.Char("Water")
-    f1 = fields.Char("F-1")
-    f2 = fields.Char("F-2")
-    main = fields.Char("Main")
-    aftermain = fields.Char("After Main")
-    residue = fields.Char("Residue")
-    loss = fields.Char("Loss")
-    packaging = fields.Char("Packaging Details")
-    p1 = fields.Char(" ")
-    p2 = fields.Char(" ")
-    p3 = fields.Char(" ")
-    p4 = fields.Char(" ")
-    p5 = fields.Char(" ")
-    p6 = fields.Char(" ")
-    
