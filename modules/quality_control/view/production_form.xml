@@ -39,7 +39,7 @@ this repository contains the full copyright notices and license terms. -->
         <field name="loss"/>
         <newline/> -->
 
-    </xpath>
+    <!-- </xpath> -->
     
     <xpath expr="/form/notebook" position="before">
         <newline/>
