@@ -19,7 +19,7 @@ this repository contains the full copyright notices and license terms. -->
     view_ids="quality_control.temp_analysis_record_view_tree,quality_control.temp_analysis_record_view_form"/>
 
     </xpath> -->
-    <xpath expr="/form/label[@name='state']" position="before">
+    <!-- <xpath expr="/form/label[@name='state']" position="before">
         <separator string="Material Balance Summary" colspan="6" id="material_balance"/>
         <label name="inputqty"/>
         <field name="inputqty"/>
@@ -37,7 +37,7 @@ this repository contains the full copyright notices and license terms. -->
         <field name="residue"/>
         <label name="loss"/>
         <field name="loss"/>
-        <newline/>
+        <newline/> -->
 
     </xpath>
     
