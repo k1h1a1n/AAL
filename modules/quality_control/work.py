@@ -204,12 +204,47 @@ class WorkType( metaclass=PoolMeta):
 
 
 
-    ed_mb = fields.One2Many('ed.materialbalance' , 'ed_balance' , "Material Balance Summary" , 
-        states={
+    # ed_mb = fields.One2Many('ed.materialbalance' , 'ed_balance' , "Material Balance Summary" , 
+    #     states={
+    #         'invisible': ~Eval('ed_boolean', True),
+    #         },
+    #     depends=['ed_boolean']
+    #     )
+
+
+
+    ed_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+    ed_mb_f1_mix = fields.Numeric("F-1 mix",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+    ed_mb_recyclable_f1 = fields.Numeric("Recyclable f-1",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+    ed_mb_strippingmain = fields.Numeric("Stripping main",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+    ed_mb_aftermain = fields.Numeric("After main",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+    ed_mb_bottom = fields.Numeric("Bottom",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+    ed_mb_dist_loss = fields.Numeric("dist.loss",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+
+
+    ed_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={
             'invisible': ~Eval('ed_boolean', True),
-            },
-        depends=['ed_boolean']
-        )
+            },depends=['ed_boolean']),'on_change_with_ed_mb_inputqty_percent')
+    ed_mb_f1_mix_percent =fields.Function(fields.Float("F-1 mix",states={
+            'invisible': ~Eval('ed_boolean', True),
+            },depends=['ed_boolean']),'on_change_with_ed_mb_f1_mix_percent')
+    ed_mb_recyclable_f1_percent =fields.Function(fields.Float("Recyclable f-1",states={
+            'invisible': ~Eval('ed_boolean', True),
+            },depends=['ed_boolean']),'on_change_with_ed_mb_recyclable_f1_percent')
+    ed_mb_aftermain_percent =fields.Function(fields.Float("After main",states={
+            'invisible': ~Eval('ed_boolean', True),
+            },depends=['ed_boolean']),'on_change_with_ed_mb_aftermain_percent')
+    ed_mb_bottom_percent =fields.Function(fields.Float("Bottom",states={
+            'invisible': ~Eval('ed_boolean', True),
+            },depends=['ed_boolean']),'on_change_with_ed_mb_bottom_percent')
+    ed_mb_dist_loss_percent =fields.Function(fields.Float("dist.loss",states={
+            'invisible': ~Eval('ed_boolean', True),
+            },depends=['ed_boolean']),'on_change_with_ed_mb_dist_loss_percent')
+    ed_mb_strippingmain_percent =fields.Function(fields.Float("Stripping main",states={
+            'invisible': ~Eval('ed_boolean', True),
+            },depends=['ed_boolean']),'on_change_with_ed_mb_strippingmain_percent')
+
+
 
     #Water washing    
     # ww_mb = fields.One2Many('ww.materialbalance' , 'ww_balance' , "Material Balance Summary" , 
@@ -219,6 +254,8 @@ class WorkType( metaclass=PoolMeta):
     #     depends=['ww_boolean']
     #     )
     
+
+
     ww_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
     ww_mb_output = fields.Numeric("Output",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
     ww_mb_loss = fields.Numeric("Loss",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
@@ -299,6 +336,10 @@ class WorkType( metaclass=PoolMeta):
             'validate_mb_ww': {
                         'invisible': ~Eval('ww_boolean', True),
                         'depends': ['ww_boolean'],
+                        },
+            'validate_mb_ed': {
+                        'invisible': ~Eval('ed_boolean', True),
+                        'depends': ['ed_boolean'],
                         },
             })
 
@@ -640,6 +681,107 @@ class WorkType( metaclass=PoolMeta):
             raise UserError("Failed","Value Does not Match") 
 
     
+# extractive distillation
+
+    @fields.depends('ed_mb_inputqty') 
+    def on_change_with_ed_mb_inputqty_percent(self, name=None):
+        return 100
+    
+    @fields.depends('ed_mb_inputqty','ed_mb_f1_mix')
+    def on_change_with_ed_mb_f1_mix_percent(self,name=None):
+        try:
+            test = self.ed_mb_f1_mix/self.ed_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    
+    @fields.depends('ed_mb_inputqty','ed_mb_recyclable_f1')
+    def on_change_with_ed_mb_recyclable_f1_percent(self,name=None):
+        try:
+            test = self.ed_mb_recyclable_f1/self.ed_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    
+    @fields.depends('ed_mb_inputqty','ed_mb_aftermain')
+    def on_change_with_ed_mb_aftermain_percent(self,name=None):
+        try:
+            test = self.ed_mb_aftermain/self.ed_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @fields.depends('ed_mb_inputqty','ed_mb_strippingmain')
+    def on_change_with_ed_mb_strippingmain_percent(self,name=None):
+        try:
+            test = self.ed_mb_strippingmain/self.ed_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+    
+    @fields.depends('ed_mb_inputqty','ed_mb_bottom')
+    def on_change_with_ed_mb_bottom_percent(self,name=None):
+        try:
+            test = self.ed_mb_bottom/self.ed_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @fields.depends('ed_mb_inputqty','ed_mb_dist_loss')
+    def on_change_with_ed_mb_dist_loss_percent(self,name=None):
+        try:
+            test = self.ed_mb_dist_loss/self.ed_mb_inputqty
+            percent = test*100 
+            return percent
+        except ZeroDivisionError:
+            return 0
+
+    @ModelView.button_change('ed_mb_inputqty','ed_mb_f1_mix', 'ed_mb_recyclable_f1', 'ed_mb_aftermain','ed_mb_strippingmain','ed_mb_bottom','ed_mb_dist_loss')
+    def validate_mb_ed(self):
+        sums = self.ed_mb_f1_mix + self.ed_mb_recyclable_f1 + self.ed_mb_aftermain + self.ed_mb_strippingmain + self.ed_mb_bottom + self.ed_mb_dist_loss
+
+        if self.ed_mb_inputqty == sums:
+            
+            raise UserError("Value Matched","All Value Matched")
+        else :
+            raise UserError("Failed","Value Does not Match") 
+
+
+    @staticmethod
+    def default_ed_mb_inputqty():
+        return 0
+
+    @staticmethod
+    def default_ed_mb_f1_mix():
+        return 0
+
+    @staticmethod
+    def default_ed_mb_recyclable_f1():
+        return 0
+
+    @staticmethod
+    def default_ed_mb_strippingmain():
+        return 0
+
+    @staticmethod
+    def default_ed_mb_aftermain():
+        return 0
+
+    @staticmethod
+    def default_ed_mb_bottom():
+        return 0
+
+    @staticmethod
+    def default_ed_mb_dist_loss():
+        return 0
+
 
 
     

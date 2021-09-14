@@ -120,6 +120,11 @@
                 <field name="model"  search="[('model', '=', 'production.work')]"/>
         </record>
 
+        <record model="ir.model.button" id="validate_mb_ed_button">
+                <field name="name">validate_mb_ed</field>
+                <field name="string">Validate</field>
+                <field name="model"  search="[('model', '=', 'production.work')]"/>
+        </record>
 
 
     </data>

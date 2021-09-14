@@ -69,8 +69,48 @@
 
 
    
-    <field name="ed_mb" colspan="4" 
-    view_ids="quality_control.ed_mb_view_tree,quality_control.ed_mb_view_form"/> 
+    <!-- <field name="ed_mb" colspan="4" 
+    view_ids="quality_control.ed_mb_view_tree,quality_control.ed_mb_view_form"/>  -->
+
+    <separator name="ed_mb_inputqty" id="ed_mb_seperator" string="Material Balance" colspan="6" />
+    <label name="ed_mb_inputqty"/>
+    <field name="ed_mb_inputqty"/>
+    <label name="ed_mb_f1_mix"/>
+    <field name="ed_mb_f1_mix"/>
+    <label name="ed_mb_recyclable_f1"/>
+    <field name="ed_mb_recyclable_f1"/>
+    <label name="ed_mb_strippingmain"/>
+    <field name="ed_mb_strippingmain"/>
+    <label name="ed_mb_aftermain"/>
+    <field name="ed_mb_aftermain"/>
+    <label name="ed_mb_bottom"/>
+    <field name="ed_mb_bottom"/>
+    <label name="ed_mb_dist_loss"/>
+    <field name="ed_mb_dist_loss"/>
+    
+
+
+    <separator name="ed_mb_inputqty" id="ed_mb_seperator_percent" string="Material Balance%" colspan="6" />
+    <label name="ed_mb_inputqty_percent"/>
+    <field name="ed_mb_inputqty_percent"/>
+    <label name="ed_mb_f1_mix_percent"/>
+    <field name="ed_mb_f1_mix_percent"/>
+    <label name="ed_mb_recyclable_f1_percent"/>
+    <field name="ed_mb_recyclable_f1_percent"/>
+    <label name="ed_mb_strippingmain_percent"/>
+    <field name="ed_mb_strippingmain_percent"/>
+    <label name="ed_mb_aftermain_percent"/>
+    <field name="ed_mb_aftermain_percent"/>
+    <label name="ed_mb_bottom_percent"/>
+    <field name="ed_mb_bottom_percent"/>
+    <label name="ed_mb_dist_loss_percent"/>
+    <field name="ed_mb_dist_loss_percent"/>
+
+    <button name="validate_mb_ed" colspan="2"/>
+
+
+
+
     <group id="test_234"  colspan="4">
     <label name="quantitytaken"/>
     <field name="quantitytaken" colspan="3"/>
