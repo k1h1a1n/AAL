@@ -370,7 +370,7 @@ class WorkType( metaclass=PoolMeta):
             percent = test*100 
             return percent
             
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('treatment_loss','treatment_input_qty') 
@@ -382,7 +382,7 @@ class WorkType( metaclass=PoolMeta):
             percent = test*100 
             return percent
             
-        except ZeroDivisionError:
+        except :
             return 0                
 
     @fields.depends('treatment_lye_collected','treatment_input_qty') 
@@ -390,7 +390,7 @@ class WorkType( metaclass=PoolMeta):
         try:
             percent = (self.treatment_lye_collected/self.treatment_input_qty)*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @ModelView.button_change('treatment_output_qty','treatment_input_qty', 'treatment_loss', 'treatment_lye_collected')
@@ -448,7 +448,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.fd_mb_water/self.fd_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @fields.depends('fd_mb_inputqty','fd_mb_f1') 
@@ -457,7 +457,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.fd_mb_f1/self.fd_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('fd_mb_inputqty','fd_mb_f2')
@@ -466,7 +466,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.fd_mb_f2/self.fd_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('fd_mb_inputqty','fd_mb_main')
@@ -475,7 +475,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.fd_mb_main/self.fd_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('fd_mb_inputqty','fd_mb_aftermain')
@@ -484,7 +484,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.fd_mb_aftermain/self.fd_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('fd_mb_inputqty','fd_mb_residue')
@@ -493,7 +493,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.fd_mb_residue/self.fd_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('fd_mb_inputqty','fd_mb_loss')
@@ -502,7 +502,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.fd_mb_loss/self.fd_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @ModelView.button_change('fd_mb_inputqty','fd_mb_loss', 'fd_mb_residue', 'fd_mb_aftermain','fd_mb_main','fd_mb_f2','fd_mb_f1','fd_mb_water')
@@ -529,7 +529,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.st_mb_f1_mix/self.st_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     
@@ -539,7 +539,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.st_mb_recyclable_f1/self.st_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     
@@ -549,7 +549,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.st_mb_aftermain/self.st_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @fields.depends('st_mb_inputqty','st_mb_strippingmain')
@@ -558,7 +558,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.st_mb_strippingmain/self.st_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('st_mb_inputqty','st_mb_bottom')
@@ -567,7 +567,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.st_mb_bottom/self.st_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @fields.depends('st_mb_inputqty','st_mb_dist_loss')
@@ -576,7 +576,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.st_mb_dist_loss/self.st_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @ModelView.button_change('st_mb_inputqty','st_mb_f1_mix', 'st_mb_recyclable_f1', 'st_mb_aftermain','st_mb_strippingmain','st_mb_bottom','st_mb_dist_loss')
@@ -647,7 +647,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ww_mb_output/self.ww_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except:
             return 0
     
     @fields.depends('ww_mb_inputqty','ww_mb_loss')
@@ -656,7 +656,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ww_mb_loss/self.ww_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
         
 
@@ -666,7 +666,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ww_mb_consumption/self.ww_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
 
@@ -693,7 +693,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ed_mb_f1_mix/self.ed_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     
@@ -703,7 +703,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ed_mb_recyclable_f1/self.ed_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     
@@ -713,7 +713,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ed_mb_aftermain/self.ed_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @fields.depends('ed_mb_inputqty','ed_mb_strippingmain')
@@ -722,7 +722,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ed_mb_strippingmain/self.ed_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
     
     @fields.depends('ed_mb_inputqty','ed_mb_bottom')
@@ -731,7 +731,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ed_mb_bottom/self.ed_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @fields.depends('ed_mb_inputqty','ed_mb_dist_loss')
@@ -740,7 +740,7 @@ class WorkType( metaclass=PoolMeta):
             test = self.ed_mb_dist_loss/self.ed_mb_inputqty
             percent = test*100 
             return percent
-        except ZeroDivisionError:
+        except :
             return 0
 
     @ModelView.button_change('ed_mb_inputqty','ed_mb_f1_mix', 'ed_mb_recyclable_f1', 'ed_mb_aftermain','ed_mb_strippingmain','ed_mb_bottom','ed_mb_dist_loss')
