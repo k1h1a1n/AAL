@@ -19,6 +19,12 @@ class WorkType( metaclass=PoolMeta):
             },
         depends=['treatment_boolean']
         )
+    equipment_no =fields.Char("Equipmet No" ,
+        states={
+            'invisible': ~Eval('treatment_boolean', True),
+            },
+        depends=['treatment_boolean']
+        )
     initial_ph = fields.Char("Initial pH" ,
         states={
             'invisible': ~Eval('treatment_boolean', True),
@@ -48,6 +54,7 @@ class WorkType( metaclass=PoolMeta):
     ed_boolean = fields.Boolean('Extractive Distillation')
     ww_boolean = fields.Boolean('Water Washing')
     striping = fields.Boolean('Striping')
+
    
     # treatment material balance
 

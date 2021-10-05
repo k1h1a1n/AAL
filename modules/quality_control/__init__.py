@@ -42,4 +42,5 @@ def register():
     Pool.register(
         module='quality_control', type_='wizard')
     Pool.register(
+        production.ProductionReport,
         module='quality_control', type_='report')

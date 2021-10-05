@@ -1,8 +1,29 @@
 from trytond.model import ModelSQL, ModelView, fields
 from trytond.pool import Pool, PoolMeta
+from trytond.report import Report
 
 __all__ = ['QualityControlProduction','QualityShipmentIn','ProdShipment','TemperatureAnalysisRecord'        ]
 
+
+class ProductionReport(Report):
+    __name__ = 'production.report'
+
+    @classmethod
+    def get_context(cls, production, data):
+        pool = Pool()
+        Production = pool.get('production')
+        context = super(ProductionReport,cls).get_context(production,data)
+        # employee_id = Transaction().context.get('employee')
+        production = Production(data["id"])
+        context['production'] = production
+        inwards = ''
+        # context['productname'] = production.product
+        for i in production.inwardno:
+            # print ("this is I" ,i.reference)
+            inwards += i.reference + ", "
+        context['inwards'] = inwards
+        return context
+        
 class QualityControlProduction(ModelSQL, ModelView):
     "Quality Control Production"
     __name__ = 'production'

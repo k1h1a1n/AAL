@@ -5,10 +5,10 @@ this repository contains the full copyright notices and license terms. -->
     <xpath expr="/form/label[@name='reference']" position="before">
         <label name="party"/>
         <field name="party"/> 
-        <label name="reactorno"/>
+        <!-- <label name="reactorno"/>
         <field name="reactorno"/> 
         <label name="reactorcapacity"/>
-        <field name="reactorcapacity"/> 
+        <field name="reactorcapacity"/>  -->
         <!-- <label name="details"/>
         <field name="details"/>  -->
         <label name="remarks"/>

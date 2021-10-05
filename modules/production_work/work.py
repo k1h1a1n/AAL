@@ -283,6 +283,8 @@ class WorkCycle(Workflow, ModelSQL, ModelView):
     __name__ = 'production.work.cycle'
     work = fields.Many2One('production.work', 'Work', required=True,
         ondelete='CASCADE', select=True)
+    from_ = fields.DateTime("From")
+    to = fields.DateTime("To")
     duration = fields.TimeDelta('Duration',
         states={
             'required': Eval('state') == 'done',

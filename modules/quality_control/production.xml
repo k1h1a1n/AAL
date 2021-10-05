@@ -17,6 +17,17 @@
             <field name="name">temp_analysis_record_form</field>
         </record>
 
-        
+        <record model="ir.action.report" id="report_productions">
+            <field name="name">Production</field>
+            <field name="model">production</field>
+            <field name="report_name">production.report</field>
+            <field name="report">quality_control/testingott.odt</field>
+        </record>
+
+        <record model="ir.action.keyword" id="report_production_keyword">
+            <field name="keyword">form_print</field>
+            <field name="model">production,-1</field>
+            <field name="action" ref="report_productions"/>
+        </record>
   </data>
 </tryton>

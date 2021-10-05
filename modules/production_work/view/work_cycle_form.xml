@@ -4,6 +4,10 @@ this repository contains the full copyright notices and license terms. -->
 <form>
     <label name="work"/>
     <field name="work" colspan="4"/>
+    <label name="from_"/>
+    <field name="from_"/>
+    <label name="to"/>
+    <field name="to"/>
     <label name="duration"/>
     <field name="duration"/>
     <newline/>

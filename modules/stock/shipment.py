@@ -75,20 +75,28 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
             )
     gi = fields.Integer('G.I',
         states={
+                'required':  ~Eval('bulk',False),
                 'invisible': Eval('bulk',False)
                 })
     ms = fields.Integer('M.S',
         states={
+                'required':  ~Eval('bulk',False),
                 'invisible': Eval('bulk',False)
                 })
     pvc = fields.Integer('PVC',
         states={
+                'required':  ~Eval('bulk',False),
                 'invisible': Eval('bulk',False)
                 })
-    sum = fields.Integer('Total drums')
+    sum = fields.Integer('Total drums',
+    states={
+                'invisible': Eval('bulk',False)
+                }
+    )
     vehicle_no = fields.Char('Vehicle Number',
         states={
-                'invisible': ~Eval('bulk',False)
+                'invisible': ~Eval('bulk',False),
+                'required':  Eval('bulk',False),
                 })
     effective_date = fields.Date('Effective Date',
         states={
