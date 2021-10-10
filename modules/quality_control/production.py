@@ -34,6 +34,16 @@ class ProductionReport(Report):
                 context['finalPH'] = i.final_ph
                 context['initialmoisture'] = i.initial_moisture
                 context['finalmoisture'] = i.final_moisture
+                context['phadjustment'] = i.qty_sulphuric
+                context['stabilizer'] = i.qty_bht
+                context['T_ip_qty'] = i.treatment_input_qty
+                context['T_ip_qty_per'] = i.treatment_input_qty_percent
+                context['T_io_qty'] = i.treatment_output_qty
+                context['T_io_qty_per'] = i.treatment_output_qty_percent
+                context['T_loss'] = i.treatment_loss
+                context['T_loss_per'] = i.treatment_loss_percent
+                context['T_lye'] = i.treatment_lye_collected
+                context['T_lye_per'] = i.treatment_lye_collected_percent
         return context
         
 class QualityControlProduction(ModelSQL, ModelView):
