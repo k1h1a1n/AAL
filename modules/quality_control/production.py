@@ -22,6 +22,18 @@ class ProductionReport(Report):
             # print ("this is I" ,i.reference)
             inwards += i.reference + ", "
         context['inwards'] = inwards
+        context['treatment_boolean'] = False
+        for i in production.works:
+            if i.operation.operation_type == "treatment":
+                context['treatment_boolean'] = True
+                context['treatment_equipment_no'] = i.equipment_no
+                # context['from'] = i.cycles.from_
+                # context['to'] = i.cycles.to
+                # print ("this is I" ,i.cycles.to)
+                context['initialPH'] = i.initial_ph
+                context['finalPH'] = i.final_ph
+                context['initialmoisture'] = i.initial_moisture
+                context['finalmoisture'] = i.final_moisture
         return context
         
 class QualityControlProduction(ModelSQL, ModelView):
