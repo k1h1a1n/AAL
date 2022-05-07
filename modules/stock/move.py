@@ -184,6 +184,13 @@ class Move(Workflow, ModelSQL, ModelView):
     product_uom_category = fields.Function(
         fields.Many2One('product.uom.category', 'Product Uom Category'),
         'on_change_with_product_uom_category')
+    inward_ref = fields.Many2One("stock.shipment.in", "Inward", domain=[('production_state','=','pending'),('preproduction_state','=','approved'),('state','=','done')])
+    moves = fields.Many2One('stock.move', "Moves",
+            domain=[
+                ('shipment', '=', ('stock.shipment.in', Eval('inward_ref', -1))),
+                ('to_location.code','=','STO'),
+                 ]
+            ) 
     uom = fields.Many2One("product.uom", "Uom", required=True,
         states={
             'readonly': (Eval('state').in_(['cancelled', 'assigned', 'done'])
@@ -420,7 +427,7 @@ class Move(Workflow, ModelSQL, ModelView):
                 self.uom = self.product.default_uom
                 self.unit_digits = self.product.default_uom.digits
 
-    @fields.depends('product')
+    @fields.depends('product','moves')
     def on_change_with_product_uom_category(self, name=None):
         if self.product:
             return self.product.default_uom_category.id
@@ -463,6 +470,23 @@ class Move(Workflow, ModelSQL, ModelView):
         if from_type == 'customer' and to_type == 'storage':
             return True
         return False
+    
+    @fields.depends('moves')
+    def on_change_with_product(self, name=None):
+        
+        product = self.moves.product.id
+
+        return product
+    
+    @fields.depends('inward_ref')
+    def on_change_with_quantity(self, name=None):
+        
+        qty = self.inward_ref.remaining_qty
+
+        return qty
+
+    
+
 
     @fields.depends('from_location', 'to_location')
     def on_change_with_cost_price_required(self, name=None):
@@ -609,6 +633,8 @@ class Move(Workflow, ModelSQL, ModelView):
     @Workflow.transition('assigned')
     def assign(cls, moves):
         cls.check_origin(moves)
+    
+    
 
     @classmethod
     @ModelView.button

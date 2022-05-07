@@ -7,10 +7,12 @@
     <!-- <separator name="ww_mb_inputqty" id="ww_mb_seperator" string="Material Balance" colspan="6" /> -->
     <label name="equipment_no"/>
     <field name="equipment_no"/>
-    <separator name="ww_mb_inputqty"  string="Material Balance" colspan="6" />
 
+
+    <separator name="ww_mb_inputqty"  string="Input Qty" colspan="6" />
     <label name="ww_mb_inputqty"/>
     <field name="ww_mb_inputqty"/>
+    <separator name="ww_mb_inputqty"  string="Material Balance" colspan="6" />
     <label name="ww_mb_output"/>
     <field name="ww_mb_output"/>
     <label name="ww_mb_loss"/>
@@ -18,9 +20,11 @@
     <label name="ww_mb_consumption"/>
     <field name="ww_mb_consumption"/>
 
-    <separator name="ww_mb_inputqty"  string="Material Balance%" colspan="6" />
+    <separator name="ww_mb_inputqty"  string="Input Qty %" colspan="6" />
     <label name="ww_mb_inputqty_percent"/>
     <field name="ww_mb_inputqty_percent"/>
+    <separator name="ww_mb_inputqty"  string="Material Balance%" colspan="6" />
+
     <label name="ww_mb_output_percent"/>
     <field name="ww_mb_output_percent"/>
     <label name="ww_mb_loss_percent"/>
@@ -35,9 +39,10 @@
 
     <!-- <field name="stripping" colspan="4" 
     view_ids="quality_control.stripping_mb_view_tree,quality_control.stripping_mb_view_form"/> -->
-    <separator name="st_mb_inputqty"  string="Material Balance" colspan="6" />
+    <separator name="st_mb_inputqty"  string="Input Qty" colspan="6" />
     <label name="st_mb_inputqty"/>
     <field name="st_mb_inputqty"/>
+    <separator name="st_mb_inputqty"  string="Material Balance" colspan="6" />
     <label name="st_mb_f1_mix"/>
     <field name="st_mb_f1_mix"/>
     <label name="st_mb_recyclable_f1"/>
@@ -52,10 +57,10 @@
     <field name="st_mb_dist_loss"/>
     
 
-
-    <separator name="st_mb_inputqty"  string="Material Balance%" colspan="6" />
+    <separator name="st_mb_inputqty"  string="Input Qty%" colspan="6" />
     <label name="st_mb_inputqty_percent"/>
     <field name="st_mb_inputqty_percent"/>
+    <separator name="st_mb_inputqty"  string="Material Balance%" colspan="6" />
     <label name="st_mb_f1_mix_percent"/>
     <field name="st_mb_f1_mix_percent"/>
     <label name="st_mb_recyclable_f1_percent"/>
@@ -75,10 +80,10 @@
    
     <!-- <field name="ed_mb" colspan="4" 
     view_ids="quality_control.ed_mb_view_tree,quality_control.ed_mb_view_form"/>  -->
-
-    <separator name="ed_mb_inputqty"  string="Material Balance" colspan="6" />
+    <separator name="ed_mb_inputqty"  string="Input Qty" colspan="6" />
     <label name="ed_mb_inputqty"/>
     <field name="ed_mb_inputqty"/>
+    <separator name="ed_mb_inputqty"  string="Material Balance" colspan="6" /> 
     <label name="ed_mb_f1_mix"/>
     <field name="ed_mb_f1_mix"/>
     <label name="ed_mb_recyclable_f1"/>
@@ -93,10 +98,11 @@
     <field name="ed_mb_dist_loss"/>
     
 
-
-    <separator name="ed_mb_inputqty"  string="Material Balance%" colspan="6" />
+    <separator name="ed_mb_inputqty"  string="Input %" colspan="6" />
     <label name="ed_mb_inputqty_percent"/>
     <field name="ed_mb_inputqty_percent"/>
+    <separator name="ed_mb_inputqty"  string="Material Balance%" colspan="6" />
+    
     <label name="ed_mb_f1_mix_percent"/>
     <field name="ed_mb_f1_mix_percent"/>
     <label name="ed_mb_recyclable_f1_percent"/>
@@ -137,10 +143,13 @@
     </group>
     <!-- <field name="materialbalance" colspan="4" 
     view_ids="quality_control.materialbalance_view_tree,quality_control.materialbalance_view_form"/> -->
-    <separator name="treatment_input_qty"  string="Material Balance" colspan="6" />
-   
+    
+    <!-- Treatment  -->
+    <separator name="treatment_input_qty"  string="Input Qty" colspan="6" />
     <label name="treatment_input_qty"/>
     <field name="treatment_input_qty"/>
+    
+    <separator name="treatment_input_qty"  string="Material Balance" colspan="6" />
     <label name="treatment_output_qty"/>
     <field name="treatment_output_qty"/>
     <label name="treatment_loss"/>
@@ -148,9 +157,10 @@
     <label name="treatment_lye_collected"/>
     <field name="treatment_lye_collected"/>
 
-    <separator name="treatment_input_qty"  string="Material Balance %" colspan="6" />
+    <separator name="treatment_input_qty"  string="Input %" colspan="6" />
     <label name="treatment_input_qty_percent"/>
     <field name="treatment_input_qty_percent"/>
+    <separator name="treatment_input_qty"  string="Material Balance %" colspan="6" />
     <label name="treatment_output_qty_percent"/>
     <field name="treatment_output_qty_percent"/>
     <label name="treatment_loss_percent"/>
@@ -182,9 +192,13 @@
     view_ids="quality_control.fd_analysis_view_tree,quality_control.fd_analysis_view_form"/>
     <!-- <field name="mb" colspan="4" 
     view_ids="quality_control.fd_mb_view_tree,quality_control.fd_mb_view_form"/> -->
-    <separator name="fd_mb_inputqty"  string="Material Balance" colspan="6" />
+
+
+
+    <separator name="fd_mb_inputqty"  string="Input Qty" colspan="6" />
     <label name="fd_mb_inputqty"/>
     <field name="fd_mb_inputqty"/>
+    <separator name="fd_mb_inputqty"  string="Material Balance" colspan="6" />
     <label name="fd_mb_water"/>
     <field name="fd_mb_water"/>
     <label name="fd_mb_f1"/>
@@ -200,9 +214,12 @@
     <label name="fd_mb_loss"/>
     <field name="fd_mb_loss"/>
 
-    <separator name="fd_mb_inputqty"  string="Material Balance %" colspan="6" /> 
+
+    <separator name="fd_mb_inputqty"  string="Input Qty %" colspan="6" /> 
     <label name="fd_mb_inputqty_percent"/>
     <field name="fd_mb_inputqty_percent"/>
+
+    <separator name="fd_mb_inputqty"  string="Material Balance %" colspan="6" /> 
     <label name="fd_mb_water_percent"/>
     <field name="fd_mb_water_percent"/>
     <label name="fd_mb_f1_percent"/>

@@ -38,7 +38,7 @@ this repository contains the full copyright notices and license terms. -->
             <field name="count" eval="True"/>
             <field name="act_window" ref="act_shipment_in_form"/>
         </record>
-        <record model="ir.action.act_window.domain" id="act_shipment_in_form_domain_received">
+        <record model="ir.action.act_window.domain" id="act_shipment_in_form_domain_jw">
             <field name="name">Received</field>
             <field name="sequence" eval="20"/>
             <field name="domain" eval="[('state', '=', 'received')]" pyson="1"/>
@@ -51,6 +51,13 @@ this repository contains the full copyright notices and license terms. -->
             <field name="domain"></field>
             <field name="act_window" ref="act_shipment_in_form"/>
         </record>
+        <!-- <record model="ir.action.act_window.domain" id="act_shipment_in_form_domain_received">
+            <field name="name">Job Work</field>
+            <field name="sequence" eval="10000"/>
+            <field name="domain" eval="[('is_jw', '=', 'True')]" pyson="1"/>
+            <field name="count" eval="True"/>
+            <field name="act_window" ref="act_shipment_in_form"/>
+        </record> -->
         <menuitem parent="menu_stock" sequence="20"
             action="act_shipment_in_form" id="menu_shipment_in_form"/>
 

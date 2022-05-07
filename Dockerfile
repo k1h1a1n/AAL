@@ -1,4 +1,4 @@
-FROM tryton/tryton:5.8
+FROM tryton/tryton:5.8-office
 
 USER root
 

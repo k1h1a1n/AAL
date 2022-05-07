@@ -79,9 +79,9 @@ class WorkType( metaclass=PoolMeta):
             'invisible': ~Eval('treatment_boolean', True),
             },depends=['treatment_boolean'])
 
-    treatment_input_qty_percent = fields.Function(fields.Float("Input qty",states={
+    treatment_input_qty_percent = fields.Float("Input qty",states={
             'invisible': ~Eval('treatment_boolean', True)
-            },depends=['treatment_boolean']),'get_treatment_input_qty_percent')
+            },depends=['treatment_boolean'])
 
     treatment_output_qty_percent = fields.Function(fields.Float("Output qty",states={
             'invisible': ~Eval('treatment_boolean', True),
@@ -366,7 +366,11 @@ class WorkType( metaclass=PoolMeta):
     def default_treatment_lye_collected():
         return 0
     
-    def get_treatment_input_qty_percent(self,name):
+    # def get_treatment_input_qty_percent(self,name):
+    #     return 100
+
+    @fields.depends('treatment_input_qty') 
+    def on_change_with_treatment_input_qty_percent(self, name=None):
         return 100
     
 
@@ -842,7 +846,9 @@ class WorkType( metaclass=PoolMeta):
         else:
             if (self.operation.operation_type == 'stripping'):
                 print("Striping")
-                return True        
+                return True       
+
+ 
 class TreatmentFreeParameter(ModelSQL,ModelView):
     "Treatment Free Parameters"
     __name__ = "treatment.freeparameter"

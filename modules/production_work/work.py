@@ -17,6 +17,9 @@ from trytond.transaction import Transaction
 from trytond.modules.product import price_digits, round_price
 from .exceptions import PickerError
 
+import calendar
+from dateutil.relativedelta import relativedelta
+
 
 class WorkCenterCategory(ModelSQL, ModelView):
     'Work Center Category'
@@ -104,6 +107,9 @@ class Work(Workflow,sequence_ordered(), ModelSQL, ModelView):
     __name__ = 'production.work'
     operation = fields.Many2One('production.routing.operation', 'Operation',
         required=True)
+    from_time = fields.DateTime("Start time",required=True)
+    to_time = fields.DateTime("End time",required=True)
+    time_duration = fields.Char("Duration",readonly=True)
     production = fields.Many2One('production', 'Production', required=True,
         select=True, ondelete='CASCADE',
         domain=[
@@ -147,7 +153,7 @@ class Work(Workflow,sequence_ordered(), ModelSQL, ModelView):
             ('running', 'Running'),
             ('finished', 'Finished'),
             ('done', 'Done'),
-            ], 'State', select=True)
+            ], 'State')
 
     @classmethod
     def __setup__(cls):
@@ -174,6 +180,17 @@ class Work(Workflow,sequence_ordered(), ModelSQL, ModelView):
 
         # Migration from 5.4: Drop not null on work_center
         table.not_null_action('work_center', 'remove')
+    
+    
+    # Time Duration between start time and end time
+    @fields.depends('from_time','to_time')
+    def on_change_with_time_duration(self,name=None):
+        if self.from_time is not None and self.to_time is not None:
+            x = self.to_time - self.from_time
+            if self.from_time != self.to_time:
+                return str(x.days * 24 + x.seconds/3600)
+            else:
+                return Decimal(0)
 
     @fields.depends('operation')
     def on_change_with_work_center_category(self, name=None):
@@ -183,6 +200,20 @@ class Work(Workflow,sequence_ordered(), ModelSQL, ModelView):
     @classmethod
     def default_company(cls):
         return Transaction().context.get('company')
+
+    @classmethod
+    def default_from_time(cls):
+        Date_ = Pool().get('ir.date')
+        return Transaction().context.get('from_time', datetime.datetime.now())
+    
+    @classmethod
+    def default_time_duration(cls):
+        return Decimal(0)
+
+    @classmethod
+    def default_to_time(cls):
+        Date_ = Pool().get('ir.date')
+        return Transaction().context.get('to_time', datetime.datetime.now())
 
     @fields.depends('production', '_parent_production.warehouse')
     def on_change_with_warehouse(self, name=None):

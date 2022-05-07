@@ -1,8 +1,13 @@
-from trytond.model import ModelSQL, ModelView, fields
+from trytond.model import ModelSQL, ModelView, fields ,Workflow
 from trytond.pool import Pool, PoolMeta
 from trytond.report import Report
+from trytond.pyson import If, Eval, Bool
+from trytond.wizard import Wizard, StateTransition, StateView, Button ,StateAction
+from trytond.transaction import Transaction
+from trytond.pyson import PYSONEncoder
+from trytond.exceptions import UserError
 
-__all__ = ['QualityControlProduction','QualityShipmentIn','ProdShipment','TemperatureAnalysisRecord'        ]
+__all__ = ['QualityControlProduction','QualityShipmentIn','ProdShipment','TemperatureAnalysisRecord','PreProductionAnalysisWiz' ]
 
 
 class ProductionReport(Report):
@@ -13,23 +18,44 @@ class ProductionReport(Report):
         pool = Pool()
         Production = pool.get('production')
         context = super(ProductionReport,cls).get_context(production,data)
+        print("Production")
+        print(str(production))
+        print(str(data))
         # employee_id = Transaction().context.get('employee')
+        print("this is production , " , production)
         production = Production(data["id"])
         context['production'] = production
-        inwards = ''
+        # inwards = ''
         # context['productname'] = production.product
-        for i in production.inwardno:
-            # print ("this is I" ,i.reference)
-            inwards += i.reference + ", "
-        context['inwards'] = inwards
+        # for i in production.inwardno:
+        #     print ("this is I" ,i.reference)
+        #     inwards += i.reference + ", "
+        # context['inwards'] = inwards
         return context
+
+class StockShipmentOut(Workflow,ModelSQL, ModelView):
+    
+    __name__ = "stock.shipment.out"
+
+    post_prod_ref = fields.Many2One('quality.control.postproduction', 'Post Production Analysis')
+
+
         
-class QualityControlProduction(ModelSQL, ModelView):
+class QualityControlProduction(Workflow,ModelSQL, ModelView):
     "Quality Control Production"
     __name__ = 'production'
     party = fields.Many2One('party.party','Party')
     reactorno = fields.Char('Reactor No')
     reactorcapacity =  fields.Integer('Reactor Capacity')
+    postproduction_state = fields.Selection([
+            ('pending', 'Pending'),
+            ('approved', 'Approved'),
+            ('rejected', 'Rejected'),
+            ], 'Post Production Analysis',
+            states={
+                'invisible': ~Eval('state').in_(['running','done']),
+                }, readonly=True)
+    
     # details = fields.Text("Deviation Details")
     remarks = fields.Text("Remarks")
     # inputqty = fields.Char("Input qty")
@@ -40,18 +66,221 @@ class QualityControlProduction(ModelSQL, ModelView):
     # aftermain = fields.Char("After Main")
     # residue = fields.Char("Residue")
     # loss = fields.Char("Loss")
-    inwardno = fields.Many2Many('prod.shipment.relation',
-        'prodid','shipid', 'Inward',domain=[
-            ('state', '=', 'done'),
-            ])
+    # inwardno = fields.Many2Many('prod.shipment.relation',
+    #     'prodid','shipid', 'Inward',domain=[
+    #         ('supplier', '=', ('party.party', Eval('party',-1))),
+    #         ])
+
+   
+    @staticmethod
+    def default_postproduction_state():
+        return 'pending'
+
+        
 
    
 
-class QualityShipmentIn(ModelSQL,ModelView):
+class QualityShipmentIn(Workflow,ModelSQL,ModelView):
     "Quality Shipment In"
     __name__ = "stock.shipment.in"
     inwardid = fields.Many2One('production','Inward ID')
     prodstate = fields.Boolean("In Production")
+    net_wt = fields.Float('Net Wt.') 
+    gross_wt = fields.Float('Gross Wt.') 
+    tare_wt = fields.Float('Tare Wt.') 
+    remaining_qty = fields.Float('Remaining Qty', readonly=True,
+    states={
+                'invisible': ~Eval('state').in_(['done']),
+                })
+    preproduction_state = fields.Selection([
+        ('pending', 'Pending'),
+        ('approved', 'Approved'),
+        ('rejected', 'Rejected')
+        ], ' Pre Production Analysis', readonly=True,
+        help="The current state of the Pre Production.",
+        states={
+                'invisible': ~Eval('state').in_(['received', 'done']),
+                })
+    
+    production_state = fields.Selection([
+        ('pending', 'Pending'),
+        ('done', 'Done')
+        ], 'Production',readonly=True, 
+        help="The current state of the Production.",
+        states={
+                'invisible': ~Eval('state').in_(['done']),
+                })
+    
+    @staticmethod
+    def default_preproduction_state():
+        return 'pending'
+    
+    
+    # @staticmethod
+    # def default_remaining_qty():
+    #     print("sasa"+str(Transaction().context.get('active_id')))
+    #     return 10
+    
+    
+    @classmethod
+    def __setup__(cls):
+        super(QualityShipmentIn, cls).__setup__()
+        cls._buttons.update({
+                'preproduction': {
+                    'invisible': ~Eval('state').in_(['received','done']),
+                    'depends': ['state'],
+                    },
+                'process': {
+                    'invisible': ~Eval('state').in_(['received','done']),
+                    'depends': ['state'],
+                    },
+                'production': {
+                    'invisible': ~Eval('state').in_(['done']),
+                    'depends': ['state'],
+                    },
+                'production_process': {
+                    'invisible': ~Eval('state').in_(['done']),
+                    'depends': ['state'],
+                    },
+            })
+    
+    @classmethod
+    @ModelView.button_action('quality_control.act_create_preproduction')
+    def preproduction(cls, shipment):
+        pass
+    
+    @classmethod
+    @ModelView.button_action('quality_control.act_preproduction_process')
+    def process(cls, shipment):
+        pass
+
+    @staticmethod
+    def default_production_state():
+        return 'pending'
+    
+    @classmethod
+    @ModelView.button_action('quality_control.act_create_production')
+    def production(cls, shipment):
+        pass
+
+class Process(Wizard):
+    'Process'
+    __name__ = 'shipment.preproduction.process'
+    start = StateTransition()
+
+    def transition_start(self):
+        active_id = Transaction().context.get('active_id')
+        try:
+            reg_id = \
+                Pool().get('stock.shipment.in').browse([active_id])[0]
+            
+        except:
+            raise UserError("You cannot process.")
+
+        PRE_QC =  Pool().get('quality.control.preproduction')
+        pre_qc = PRE_QC.search([
+                ('shipment', '=', reg_id),
+                ])
+        ShipmentIn = Pool().get('stock.shipment.in')
+        Production = Pool().get('production')
+        
+        shipments = ShipmentIn.search([
+                ('id', '=', active_id),
+                ])
+        List = []
+
+        for i in pre_qc:
+            List.append(i.state)
+
+        if len(List) == 0:
+            ShipmentIn.write(shipments, {'preproduction_state': 'pending'})
+        else:
+            if "draft" in List:
+                ShipmentIn.write(shipments, {'preproduction_state': 'pending'})                
+            elif "rejected" in List:
+                ShipmentIn.write(shipments, {'preproduction_state': 'pending'})
+            else: 
+                ShipmentIn.write(shipments, {'preproduction_state': 'approved'})
+                
+
+            
+
+        return 'end'
+    
+    def end(self):
+        return 'reload'
+     
+
+
+class PreProductionAnalysisWiz(Wizard):
+    "PreProduction Analysis"
+    __name__ = 'shipment.preproduction.create'
+    start_state = 'ask'
+    ask = StateAction('quality_control.shipment_pre_act_qualitycontrol_form')
+
+
+    def do_ask(self, action):
+        ask = Transaction().context.get('active_id')
+
+        try:
+            reg_id = \
+                Pool().get('stock.shipment.in').browse([ask])[0]
+        except:
+            raise UserError("You cannot process.")
+        
+        supplier = reg_id.id
+
+        action['pyson_domain'] = PYSONEncoder().encode([
+            ('shipment', '=', supplier)
+            ])
+        
+        action['pyson_context'] = PYSONEncoder().encode({
+            'shipment': supplier,
+            })
+        return action, {}
+
+class ProductionProcess(Wizard):
+    "Shipment Production Create"
+    __name__ = 'shipment.production.create'
+    start_state = 'ask'
+    ask = StateAction('quality_control.shipment_production_form')
+
+
+    def do_ask(self, action):
+        ask = Transaction().context.get('active_id')
+
+        try:
+            reg_id = \
+                Pool().get('stock.shipment.in').browse([ask])[0]
+        except:
+            raise UserError("You cannot process.")
+        
+        supplier = reg_id.supplier.id
+
+        action['pyson_domain'] = PYSONEncoder().encode([
+            ('party', '=', supplier)
+            ])
+        
+        action['pyson_context'] = PYSONEncoder().encode({
+            'party': supplier,
+            })
+        return action, {}
+
+        
+
+    
+   
+
+class CreatePreProduction(ModelView):
+    "PreProduction Analysis"
+    __name__ = 'preproduction.create.ask'
+    shipment = fields.Many2One('stock.shipment.in', "Shipment", required=True)
+
+    @classmethod
+    def default_shipment(cls):
+        context = Transaction().context
+        if context.get('active_model') == 'stock.shipment.in':
+            return context.get('active_id')
 
 class ProdShipment(ModelSQL):
     
@@ -60,6 +289,7 @@ class ProdShipment(ModelSQL):
     
     shipid = fields.Many2One('stock.shipment.in','Shipment ID')
     prodid = fields.Many2One('production','Production ID')
+    
 
 class TemperatureAnalysisRecord(ModelSQL,ModelView):
     "Temperature and Analysis Record"

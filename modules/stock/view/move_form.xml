@@ -3,7 +3,12 @@
 this repository contains the full copyright notices and license terms. -->
 <form col="4">
     <label name="shipment"/>
-    <field name="shipment" colspan="3"/>
+    <field name="shipment" />
+    <newline/>
+    <label name="inward_ref"/>
+    <field name="inward_ref" />
+    <label name="moves"/>
+    <field name="moves" />
     <label name="from_location"/>
     <field name="from_location"/>
     <label name="to_location"/>

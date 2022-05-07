@@ -4,8 +4,12 @@ this repository contains the full copyright notices and license terms. -->
 <form col="4" cursor="supplier">
     <label name="reference"/>
     <field name="reference"/>
-    <label name="number"/>
-    <field name="number"/>
+    <label name="shipment_type"/>
+    <field name="shipment_type"/>
+    <label name="chaalan"/>
+    <field name="chaalan"/>
+    <!-- <label name="number"/>
+    <field name="number"/> -->
     <label name="supplier"/>
     <field name="supplier"/>
     <label name="contact_address"/>
@@ -36,7 +40,7 @@ this repository contains the full copyright notices and license terms. -->
         <!-- Add here some checkboxes ! -->
     </group>
     <label name="vehicle_no"/>
-        <field name="vehicle_no" xexpand="0" width="25"/>
+    <field name="vehicle_no" xexpand="0" width="25"/>
     <notebook colspan="6">
         <page name="incoming_moves">
             <field name="incoming_moves" colspan="4"

@@ -7,6 +7,8 @@ from . import qualitycontrol
 from . import production
 from . import routing
 from . import work
+from . import stock
+
 __all__ = ['register']
 
 
@@ -36,11 +38,22 @@ def register():
         production.QualityShipmentIn,
         production.ProdShipment,
         production.TemperatureAnalysisRecord,
+        production.CreatePreProduction,
+        production.StockShipmentOut,
         # production.MaterialBalanceSummary,
         qualitycontrol.DeviationTable,
+        qualitycontrol.StandardAnalysis,
+        qualitycontrol.GcAnalysis,
+
+
+        
         module='quality_control', type_='model')
     Pool.register(
+        production.PreProductionAnalysisWiz,
+        production.Process,
+        production.ProductionProcess,
         module='quality_control', type_='wizard')
     Pool.register(
         production.ProductionReport,
+        stock.InwardReport,
         module='quality_control', type_='report')

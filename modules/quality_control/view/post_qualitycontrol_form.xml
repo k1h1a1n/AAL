@@ -3,16 +3,16 @@
     <label name="production"/>
     <field name="production"/>
     <newline/>
-    <field name="analysis" colspan="2" 
+    <label name="effective_date"/>
+    <field name="effective_date"/>
+    <field name="analysis" colspan="4" 
     view_ids="quality_control.post_qualitycontrol_analysis_view_tree,quality_control.post_qualitycontrol_analysis_view_form"/>
-    <field name="analysis1" colspan="2" 
-    view_ids="quality_control.post_qualitycontrol_analysis1_view_tree,quality_control.post_qualitycontrol_analysis1_view_form"/>
     <label name="postgraph"/>
     <field name="postgraph"/>
     <newline/>
     <separator id="post1" string="" colspan="4" />
     <separator id="post2" string="Analysis of rejected material" colspan="4" />
-    <field name="rejected" colspan="2" 
+    <field name="rejected" colspan="4" 
     view_ids="quality_control.post_qualitycontrol_rejected_view_tree,quality_control.post_qualitycontrol_rejected_view_form"/>
     <label name="postimage"/>
     <field name="postimage"/>
@@ -33,4 +33,12 @@
     view_ids="quality_control.post_qualitycontrol_customer_view_tree,quality_control.post_qualitycontrol_customer_view_form"/>
     <label name="remark"/>
     <field name="remark"/>
+    <newline/>
+    <group col="-1" colspan="2" id="state_buttons">
+        <button name="draft"/>
+        <button name="approve"/>
+        <button name="reject"/>
+    </group>
+    <label name="state"/>
+    <field name="state"/>
 </form>

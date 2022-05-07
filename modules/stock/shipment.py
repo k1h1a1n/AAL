@@ -9,12 +9,13 @@ from sql import Null
 
 from trytond.i18n import gettext
 from trytond.model import Workflow, ModelView, ModelSQL, fields, dualmethod
-from trytond.model.exceptions import AccessError
+from trytond.model.exceptions import AccessError 
 from trytond.modules.company import CompanyReport
 from trytond.wizard import Wizard, StateTransition, StateView, Button
 from trytond.pyson import Eval, If, Id, Bool
 from trytond.transaction import Transaction
 from trytond.pool import Pool, PoolMeta
+from trytond.exceptions import UserError
 
 from trytond.modules.company.model import employee_field, set_employee
 
@@ -68,11 +69,17 @@ class ShipmentAssignMixin(ShipmentMixin):
 class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
     "Supplier Shipment"
     __name__ = 'stock.shipment.in'
-    _rec_name = 'number'
-    weighting = fields.Char('Weighting')
+    _rec_name = 'reference'
+    weighting = fields.Char('Weight')
+    chaalan = fields.Char('Chalaan No.')
     bulk = fields.Boolean(
             "Bulk",
             )
+    shipment_type = fields.Selection([
+        ('jw', 'Job Work'),
+        ('vendor', 'Vendor'),
+        ('ratecontract', 'Rate Contract')
+        ], 'Shipment Type')
     gi = fields.Integer('G.I',
         states={
                 'required':  ~Eval('bulk',False),
@@ -95,7 +102,6 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
     )
     vehicle_no = fields.Char('Vehicle Number',
         states={
-                'invisible': ~Eval('bulk',False),
                 'required':  Eval('bulk',False),
                 })
     effective_date = fields.Date('Effective Date',
@@ -118,11 +124,11 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
             ],
         depends=['state'],
         help="The company the shipment is associated with.")
-    reference = fields.Char("Inward", size=None, select=True,
+    reference = fields.Char("Inward", required=True, select=True,
         states={
             'readonly': Eval('state') != 'draft',
             }, depends=['state'],
-        help="The supplier's identifier for the shipment.")
+        help="The supplier's identifier for the shipment.",)
     supplier = fields.Many2One('party.party', 'Supplier',
         states={
             'readonly': (((Eval('state') != 'draft')
@@ -217,7 +223,7 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         ('done', 'Done'),
         ('cancelled', 'Cancelled'),
         ('received', 'Received'),
-        ], 'State', readonly=True,
+        ], 'Shipment State', readonly=True,
         help="The current state of the shipment.")
 
     @staticmethod
@@ -519,7 +525,14 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
     @Workflow.transition('received')
     @set_employee('received_by')
     def receive(cls, shipments):
+        
         Move = Pool().get('stock.move')
+        PreProd = Pool().get('quality.control.preproduction')
+        PreProd.create([{
+                        'shipment': shipments[0].id,
+                        'input_qty': 0
+                        
+                        }]) 
         Move.do([m for s in shipments for m in s.incoming_moves])
         Move.delete([m for s in shipments for m in s.inventory_moves
             if m.state in ('draft', 'cancelled')])
@@ -536,12 +549,29 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
     @Workflow.transition('done')
     @set_employee('done_by')
     def done(cls, shipments):
+        
         pool = Pool()
         Move = pool.get('stock.move')
         Date = pool.get('ir.date')
         Move.do([m for s in shipments for m in s.inventory_moves])
+        if shipments[0].preproduction_state == 'pending':
+            raise UserError("You Must Complete Pre Production Analysis.")
+
+        # for i in shipments[0].inventory_moves:
+        #     moves = Move.search([
+        #         ('id', '=', i.id),
+        #         ])
+        #     Move.write(moves,{'inward_ref': shipments[0]} )
+        Production = Pool().get('production')
+        Production.create([{
+                    'inward_ref': shipments[0].id
+                }])
+
+        
         cls.write([s for s in shipments if not s.effective_date], {
                 'effective_date': Date.today(),
+                'remaining_qty': shipments[0].inventory_moves[0].quantity
+
                 })
 
 
@@ -902,6 +932,8 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
     "Customer Shipment"
     __name__ = 'stock.shipment.out'
     _rec_name = 'number'
+
+    
     bulk = fields.Boolean(
             "Bulk",
             )
@@ -927,6 +959,15 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
             },
         depends=['state'],
         help="When the stock was actually sent.")
+    
+    vehicle_no = fields.Char("Vehicle No.")
+    challan_no = fields.Char("Challan No.")
+    transporter_name = fields.Char("Transporter Name.")
+
+    gross_wt = fields.Integer("Gross Wt")
+    tare_wt = fields.Integer("Tare Wt")
+    net_wt = fields.Integer("Net Wt")
+    
     planned_date = fields.Date('Planned Date',
         states={
             'readonly': Eval('state') != 'draft',
@@ -1029,6 +1070,8 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
         ('waiting', 'Waiting'),
         ], 'State', readonly=True,
         help="The current state of the shipment.")
+    
+    
 
     @classmethod
     def __setup__(cls):
@@ -1940,7 +1983,7 @@ class ShipmentOutReturn(ShipmentMixin, Workflow, ModelSQL, ModelView):
 class ShipmentInternal(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
     "Internal Shipment"
     __name__ = 'stock.shipment.internal'
-    _rec_name = 'number'
+    _rec_name = 'reference'
     effective_date = fields.Date('Effective Date',
         states={
             'readonly': Eval('state').in_(['cancelled', 'done']),

@@ -3,6 +3,7 @@
 this repository contains the full copyright notices and license terms. -->
 <data>
     <xpath expr="/form/label[@name='reference']" position="before">
+        
         <label name="party"/>
         <field name="party"/> 
         <!-- <label name="reactorno"/>
@@ -11,8 +12,12 @@ this repository contains the full copyright notices and license terms. -->
         <field name="reactorcapacity"/>  -->
         <!-- <label name="details"/>
         <field name="details"/>  -->
-        <label name="remarks"/>
-        <field name="remarks"/>        
+        <!-- <label name="preproduction_state"/>
+        <field name="preproduction_state"/>         -->
+    </xpath>
+    <xpath expr="/form/group[@id='buttons']" position="after">
+         <label name="postproduction_state"/>
+        <field name="postproduction_state"/> 
     </xpath>
     <!-- <xpath expr="/form/field[@name='product']" position="after">
         <field name="temp_analysis" colspan="4" 
@@ -41,10 +46,10 @@ this repository contains the full copyright notices and license terms. -->
 
     <!-- </xpath> -->
     
-    <xpath expr="/form/notebook" position="before">
-        <newline/>
+    <!-- <xpath expr="/form/notebook" position="before">
+        <newline/> -->
         <!-- <label name="party"/>
         <field name="party"/>  -->
-        <field name="inwardno" widget="many2many" colspan="4"/> 
-    </xpath>
+        <!-- <field name="inwardno" widget="many2many" colspan="4"/>  -->
+    <!-- </xpath> -->
 </data>

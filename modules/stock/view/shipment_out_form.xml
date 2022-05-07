@@ -4,6 +4,8 @@ this repository contains the full copyright notices and license terms. -->
 <form cursor="customer">
     <label name="reference"/>
     <field name="reference"/>
+    <label name="challan_no"/>
+    <field name="challan_no"/>
     <label name="number"/>
     <field name="number"/>
     <label name="customer"/>
@@ -20,6 +22,10 @@ this repository contains the full copyright notices and license terms. -->
     <field name="warehouse"/>
     <label name="bulk"/>
     <field name="bulk" width="10"  colspan="1"/>
+    <label name="vehicle_no"/>
+    <field name="vehicle_no"/>
+    <label name="transporter_name"/>
+    <field name="transporter_name"/>
     <group col="-1" colspan="2" id="bulks">
         <label name="ms"/>
         <field name="ms" xexpand="0" width="25"/>
@@ -31,6 +37,12 @@ this repository contains the full copyright notices and license terms. -->
         <field name="l1000" xexpand="0" width="25"/>
         <!-- Add here some checkboxes ! -->
     </group>
+    <label name="gross_wt"/>
+    <field name="gross_wt"/>
+    <label name="tare_wt"/>
+    <field name="tare_wt"/>
+    <label name="net_wt"/>
+    <field name="net_wt"/>
     <notebook colspan="4">
         <page name="inventory_moves">
             <field name="inventory_moves" colspan="4" view_ids="stock.move_view_list_shipment"/>
