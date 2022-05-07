@@ -27,10 +27,32 @@ class ProductionReport(Report):
         context['production'] = production
         # inwards = ''
         # context['productname'] = production.product
-        # for i in production.inwardno:
-        #     print ("this is I" ,i.reference)
-        #     inwards += i.reference + ", "
-        # context['inwards'] = inwards
+        for i in production.inwardno:
+            # print ("this is I" ,i.reference)
+            inwards += i.reference + ", "
+        context['inwards'] = inwards
+        context['treatment_boolean'] = False
+        for i in production.works:
+            if i.operation.operation_type == "treatment":
+                context['treatment_boolean'] = True
+                context['treatment_equipment_no'] = i.equipment_no
+                # context['from'] = i.cycles.from_
+                # context['to'] = i.cycles.to
+                # print ("this is I" ,i.cycles.to)
+                context['initialPH'] = i.initial_ph
+                context['finalPH'] = i.final_ph
+                context['initialmoisture'] = i.initial_moisture
+                context['finalmoisture'] = i.final_moisture
+                context['phadjustment'] = i.qty_sulphuric
+                context['stabilizer'] = i.qty_bht
+                context['T_ip_qty'] = i.treatment_input_qty
+                context['T_ip_qty_per'] = i.treatment_input_qty_percent
+                context['T_io_qty'] = i.treatment_output_qty
+                context['T_io_qty_per'] = i.treatment_output_qty_percent
+                context['T_loss'] = i.treatment_loss
+                context['T_loss_per'] = i.treatment_loss_percent
+                context['T_lye'] = i.treatment_lye_collected
+                context['T_lye_per'] = i.treatment_lye_collected_percent
         return context
 
 class StockShipmentOut(Workflow,ModelSQL, ModelView):
