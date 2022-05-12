@@ -1254,6 +1254,7 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
     @ModelView.button
     @Workflow.transition('draft')
     def draft(cls, shipments):
+        pool = Pool()
         Move = Pool().get('stock.move')
         Move.draft([m for s in shipments
                 for m in s.inventory_moves + s.outgoing_moves
