@@ -712,6 +712,11 @@ class Production(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
                 data = i.inward_ref.reference
                 ref_data += i.inward_ref.reference+", "
             
+            for i in productions[0].inputs:
+                if i.quantity > i.inward_ref.remaining_qty:
+                    raise UserError(str(i.inward_ref.reference)+" Remainig Quantity Limit Exceeds")
+
+
             pool = Pool()
             Move = pool.get('stock.move')
             Production = pool.get('production')

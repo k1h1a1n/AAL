@@ -56,4 +56,5 @@ def register():
     Pool.register(
         production.ProductionReport,
         stock.InwardReport,
+        qualitycontrol.PostProductionReport,
         module='quality_control', type_='report')

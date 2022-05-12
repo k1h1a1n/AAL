@@ -67,16 +67,16 @@ class WorkType( metaclass=PoolMeta):
     #     )
 
     treatment_input_qty = fields.Integer("Input qty",states={
-            'invisible': ~Eval('treatment_boolean', True),
+            'invisible': ~Eval('treatment_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])
             },depends=['treatment_boolean'])
     treatment_output_qty = fields.Numeric("Output qty",states={
-            'invisible': ~Eval('treatment_boolean', True),
+            'invisible': ~Eval('treatment_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])
             },depends=['treatment_boolean'])
     treatment_loss = fields.Numeric("Loss",states={
-            'invisible': ~Eval('treatment_boolean', True),
+            'invisible': ~Eval('treatment_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])
             },depends=['treatment_boolean'])
     treatment_lye_collected = fields.Numeric("Lye collected",states={
-            'invisible': ~Eval('treatment_boolean', True),
+            'invisible': ~Eval('treatment_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])
             },depends=['treatment_boolean'])
 
     treatment_input_qty_percent = fields.Float("Input qty",states={
@@ -167,14 +167,14 @@ class WorkType( metaclass=PoolMeta):
     #     depends=['fd_boolean']
     #     )
     # balance_table = fields.Many2One('production.work','Material Balance Summary')
-    fd_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
-    fd_mb_water = fields.Numeric("Water",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
-    fd_mb_f1 = fields.Numeric("F-1",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
-    fd_mb_f2 = fields.Numeric("F-2",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
-    fd_mb_main = fields.Numeric("Main",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
-    fd_mb_aftermain = fields.Numeric("After Main",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
-    fd_mb_residue = fields.Numeric("Residue",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
-    fd_mb_loss = fields.Numeric("Loss",states={'invisible': ~Eval('fd_boolean', True)},depends=['fd_boolean'])
+    fd_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
+    fd_mb_water = fields.Numeric("Water",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
+    fd_mb_f1 = fields.Numeric("F-1",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
+    fd_mb_f2 = fields.Numeric("F-2",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
+    fd_mb_main = fields.Numeric("Main",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
+    fd_mb_aftermain = fields.Numeric("After Main",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
+    fd_mb_residue = fields.Numeric("Residue",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
+    fd_mb_loss = fields.Numeric("Loss",states={'invisible': ~Eval('fd_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['fd_boolean'])
 
     fd_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={
             'invisible': ~Eval('fd_boolean', True),
@@ -220,13 +220,13 @@ class WorkType( metaclass=PoolMeta):
 
 
 
-    ed_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
-    ed_mb_f1_mix = fields.Numeric("F-1 mix",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
-    ed_mb_recyclable_f1 = fields.Numeric("Recyclable f-1",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
-    ed_mb_strippingmain = fields.Numeric("Stripping main",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
-    ed_mb_aftermain = fields.Numeric("After main",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
-    ed_mb_bottom = fields.Numeric("Bottom",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
-    ed_mb_dist_loss = fields.Numeric("dist.loss",states={'invisible': ~Eval('ed_boolean', True)},depends=['ed_boolean'])
+    ed_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('ed_boolean', True),'readonly': Eval('state').in_(['draft', 'request']),},depends=['ed_boolean'])
+    ed_mb_f1_mix = fields.Numeric("F-1 mix",states={'invisible': ~Eval('ed_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ed_boolean'])
+    ed_mb_recyclable_f1 = fields.Numeric("Recyclable f-1",states={'invisible': ~Eval('ed_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ed_boolean'])
+    ed_mb_strippingmain = fields.Numeric("Stripping main",states={'invisible': ~Eval('ed_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ed_boolean'])
+    ed_mb_aftermain = fields.Numeric("After main",states={'invisible': ~Eval('ed_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ed_boolean'])
+    ed_mb_bottom = fields.Numeric("Bottom",states={'invisible': ~Eval('ed_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ed_boolean'])
+    ed_mb_dist_loss = fields.Numeric("dist.loss",states={'invisible': ~Eval('ed_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ed_boolean'])
 
 
     ed_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={
@@ -263,10 +263,10 @@ class WorkType( metaclass=PoolMeta):
     
 
 
-    ww_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
-    ww_mb_output = fields.Numeric("Output",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
-    ww_mb_loss = fields.Numeric("Loss",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
-    ww_mb_consumption = fields.Numeric("Consumption of water",states={'invisible': ~Eval('ww_boolean', True)},depends=['ww_boolean'])
+    ww_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('ww_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ww_boolean'])
+    ww_mb_output = fields.Numeric("Output",states={'invisible': ~Eval('ww_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ww_boolean'])
+    ww_mb_loss = fields.Numeric("Loss",states={'invisible': ~Eval('ww_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ww_boolean'])
+    ww_mb_consumption = fields.Numeric("Consumption of water",states={'invisible': ~Eval('ww_boolean', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['ww_boolean'])
 
 
     ww_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={
@@ -293,13 +293,13 @@ class WorkType( metaclass=PoolMeta):
     #         },
     #     depends=['striping']
     #     )
-    st_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('striping', True)},depends=['striping'])
-    st_mb_f1_mix = fields.Numeric("F-1 mix",states={'invisible': ~Eval('striping', True)},depends=['striping'])
-    st_mb_recyclable_f1 = fields.Numeric("Recyclable f-1",states={'invisible': ~Eval('striping', True)},depends=['striping'])
-    st_mb_strippingmain = fields.Numeric("Stripping main",states={'invisible': ~Eval('striping', True)},depends=['striping'])
-    st_mb_aftermain = fields.Numeric("After main",states={'invisible': ~Eval('striping', True)},depends=['striping'])
-    st_mb_bottom = fields.Numeric("Bottom",states={'invisible': ~Eval('striping', True)},depends=['striping'])
-    st_mb_dist_loss = fields.Numeric("dist.loss",states={'invisible': ~Eval('striping', True)},depends=['striping'])
+    st_mb_inputqty = fields.Numeric("Input qty",states={'invisible': ~Eval('striping', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['striping'])
+    st_mb_f1_mix = fields.Numeric("F-1 mix",states={'invisible': ~Eval('striping', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['striping'])
+    st_mb_recyclable_f1 = fields.Numeric("Recyclable f-1",states={'invisible': ~Eval('striping', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['striping'])
+    st_mb_strippingmain = fields.Numeric("Stripping main",states={'invisible': ~Eval('striping', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['striping'])
+    st_mb_aftermain = fields.Numeric("After main",states={'invisible': ~Eval('striping', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['striping'])
+    st_mb_bottom = fields.Numeric("Bottom",states={'invisible': ~Eval('striping', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['striping'])
+    st_mb_dist_loss = fields.Numeric("dist.loss",states={'invisible': ~Eval('striping', True),'readonly': Eval('state').in_(['draft', 'request'])},depends=['striping'])
 
 
     st_mb_inputqty_percent =fields.Function(fields.Float("Input qty",states={

@@ -1258,6 +1258,9 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
         Move.draft([m for s in shipments
                 for m in s.inventory_moves + s.outgoing_moves
                 if m.state != 'staging'])
+        PostProduction = pool.get('quality.control.postproduction')
+        postproduction = PostProduction.search([('id', '=', shipments[0].post_prod_ref.id)])
+        PostProduction.write(postproduction, {'dispatch_state': 'pending'})
 
     @classmethod
     @ModelView.button
@@ -1311,8 +1314,12 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
     def assign(cls, shipments):
         pool = Pool()
         Move = pool.get('stock.move')
+        PostProduction = pool.get('quality.control.postproduction')
+        # PostProduction.shipments
         Move.assign([m for s in shipments for m in s.assign_moves])
         cls._sync_inventory_to_outgoing(shipments, quantity=False)
+        postproduction = PostProduction.search([('id', '=', shipments[0].post_prod_ref.id)])
+        PostProduction.write(postproduction, {'dispatch_state': 'inprogress'})
 
     @classmethod
     @ModelView.button
@@ -1421,7 +1428,9 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
         pool = Pool()
         Move = pool.get('stock.move')
         Date = pool.get('ir.date')
-
+        PostProduction = pool.get('quality.control.postproduction')
+        postproduction = PostProduction.search([('id', '=', shipments[0].post_prod_ref.id)])
+        PostProduction.write(postproduction, {'dispatch_state': 'done'})
         Move.do([m for s in shipments for m in s.outgoing_moves])
         cls.write([s for s in shipments if not s.effective_date], {
                 'effective_date': Date.today(),

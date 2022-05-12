@@ -31,5 +31,17 @@ this repository contains the full copyright notices and license terms. -->
             <field name="action" ref="inward_productions"/>
         </record>
 
+        <!-- <record model="ir.ui.view" id="stock_move_production_tree">
+            <field name="model">stock.move</field>  
+            <field name="type">tree</field>
+            <field name="name">stock_move_production_tree</field>
+        </record> -->
+
+        <record model="ir.ui.view" id="stock_move_production_form">
+            <field name="model">stock.move</field>
+            <field name="type">form</field>
+            <field name="name">stock_move_production_form</field>
+        </record>
+        
     </data>
 </tryton>

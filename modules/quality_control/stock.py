@@ -9,6 +9,7 @@ class InwardReport(Report):
     def get_context(cls, inward, data):
         pool = Pool()
         Inward = pool.get('stock.shipment.in')
+        PreProdAnalysis = pool.get('quality.control.preproduction')
         context = super(InwardReport,cls).get_context(inward,data)
         print("Inward")
         print(str(inward))
@@ -16,8 +17,24 @@ class InwardReport(Report):
         # employee_id = Transaction().context.get('employee')
         
         inward = Inward(data["id"])
+        # preproduction = PreProdAnalysis(data["inward"])
         context['inward'] = inward
-        context['bulk'] = True
+
+        preproduction = PreProdAnalysis.search([
+                    ('shipment', '=', inward.id),
+                    ])
+        context['preproduction'] = preproduction
+        # print("PreProduction",str(preproduction))
+        # standard_analylsis = []
+        # for i in preproduction:
+        #     print("critearea" , str(i.critearea))
+        #     for j in i.critearea:
+        #         standard_analylsis.append(j)
+        # context['standard_analylsis'] = standard_analylsis
+        # print("azfal",str(standard_analylsis.parameters.parameter) , str(standard_analylsis.value))
+
+        
+        # context['bulk'] = True
         # inwards = ''
         # context['productname'] = production.product
         # for i in production.inwardno:

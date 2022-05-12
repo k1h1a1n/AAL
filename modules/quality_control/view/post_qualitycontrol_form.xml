@@ -5,15 +5,15 @@
     <newline/>
     <label name="effective_date"/>
     <field name="effective_date"/>
-    <field name="analysis" colspan="4" 
-    view_ids="quality_control.post_qualitycontrol_analysis_view_tree,quality_control.post_qualitycontrol_analysis_view_form"/>
+    <field name="analysis_reports" colspan="4" 
+    view_ids="quality_control.pre_qualitycontrol_labcritearea_view_tree,quality_control.pre_qualitycontrol_labcritarea_view_form" />
     <label name="postgraph"/>
     <field name="postgraph"/>
     <newline/>
     <separator id="post1" string="" colspan="4" />
     <separator id="post2" string="Analysis of rejected material" colspan="4" />
-    <field name="rejected" colspan="4" 
-    view_ids="quality_control.post_qualitycontrol_rejected_view_tree,quality_control.post_qualitycontrol_rejected_view_form"/>
+    <field name="rejecteds" colspan="4" 
+    view_ids="quality_control.pre_qualitycontrol_rejected_view_tree,quality_control.pre_qualitycontrol_rejected_view_form"/>
     <label name="postimage"/>
     <field name="postimage"/>
     <newline/>
@@ -41,4 +41,6 @@
     </group>
     <label name="state"/>
     <field name="state"/>
+    <label name="dispatch_state"/>
+    <field name="dispatch_state"/>
 </form>

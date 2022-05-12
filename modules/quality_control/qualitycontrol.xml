@@ -302,7 +302,23 @@
             <field name="model"
                 search="[('model', '=', 'quality.control.postproduction')]"/>
         </record>
+     
+        <!-- Post Production Analysis Report -->
 
+        <record model="ir.action.report" id="post_production">
+            <field name="name">Post Production Analysis</field>
+            <field name="model">quality.control.postproduction</field>
+            <field name="report_name">postproduction.report</field>
+            <field name="report">quality_control/postProduction.odt</field>
+        </record>
+
+        <record model="ir.action.keyword" id="post_production_keyword">
+            <field name="keyword">form_print</field>
+            <field name="model">quality.control.postproduction,-1</field>
+            <field name="action" ref="post_production"/>
+        </record>
+
+                <!-- Post Production Analysis Report -->
 
         <!-- menuitems -->
         <menuitem name="Quality Control" id="menu_quality_control" sequence="2"/>

@@ -59,7 +59,7 @@ class StockShipmentOut(Workflow,ModelSQL, ModelView):
     
     __name__ = "stock.shipment.out"
 
-    post_prod_ref = fields.Many2One('quality.control.postproduction', 'Post Production Analysis')
+    post_prod_ref = fields.Many2One('quality.control.postproduction', 'Post Production Analysis',domain=[('dispatch_state', '=', 'pending'),('state', '=', 'approved')],required=True)
 
 
         
@@ -243,7 +243,6 @@ class PreProductionAnalysisWiz(Wizard):
 
     def do_ask(self, action):
         ask = Transaction().context.get('active_id')
-
         try:
             reg_id = \
                 Pool().get('stock.shipment.in').browse([ask])[0]

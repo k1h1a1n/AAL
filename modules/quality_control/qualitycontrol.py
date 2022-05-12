@@ -5,12 +5,25 @@ This file contains models.
 from trytond.model import ModelSQL, ModelView, Workflow, fields
 from trytond.transaction import Transaction
 from trytond.pyson import Eval, Bool, If
-from trytond.pool import Pool
+from trytond.pool import Pool , PoolMeta
 from trytond.exceptions import UserError, UserWarning
-
+from trytond.report import Report
 
 __all__ = ['QualityControlPreproduction','QualityControlPostproduction','PreProductionLabCritarea','DeviationTable']
 
+
+
+class PostProductionReport(Report):
+    __name__ = 'postproduction.report'
+
+    @classmethod
+    def get_context(cls , postproduction , data):
+        pool = Pool()
+        PostProduction = pool.get('quality.control.postproduction')
+        context = super(PostProductionReport,cls).get_context(postproduction,data)
+        postproduction = PostProduction(data["id"])
+        context['postproduction'] = postproduction
+        return context
 
 # PRE PRODUCTION 
 
@@ -25,7 +38,7 @@ class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
                 ('to_location.code','=','STO'),
                  ]
             )
-    date = fields.Date("Date") 
+    date = fields.Date("Date")
 
     # inward_no = fields.Char('Inward')
 
@@ -271,13 +284,13 @@ class QualityControlPostproduction(Workflow,ModelSQL, ModelView):
     __name__ = "quality.control.postproduction"
     production = fields.Many2One('production', "Production Batch",required=True)
     effective_date = fields.Date("Date")
-    analysis = fields.One2Many('postproduction.analysis.report',
-    'post_production_analysis_id', 'Analysis Report')
+    analysis_reports = fields.One2Many('preproduction.lab.test.critearea',
+        'pre_production_lab_id', 'Analysis Report')
     analysis1 = fields.One2Many('postproduction.analysis1.report',
     'post_production_analysis1_id', 'Analysis Report')
     postgraph = fields.Binary("Graph Upload")
-    rejected = fields.One2Many('postproduction.rejected.analysis',
-        'post_production_rejected_id', 'GC Analysis')
+    rejecteds = fields.One2Many('preproduction.rejected.analysis',
+        'pre_production_rejected_id', 'GC Analysis')
     customer = fields.One2Many('postproduction.customer.analysis', 
         'post_production_customer_id' , 'Customer Specification')
     colour = fields.Char("Colour")
@@ -293,6 +306,12 @@ class QualityControlPostproduction(Workflow,ModelSQL, ModelView):
             ('approved', 'Approved'),
             ('rejected', 'Rejected'),
             ], 'State', readonly=True)
+    
+    dispatch_state = fields.Selection([
+            ('pending', 'Pending'),
+            ('inprogress', 'In Progress'),
+            ('done', 'Done'),
+            ], 'Dispatch', readonly=True)
     
     @classmethod
     def __setup__(cls):
@@ -326,6 +345,10 @@ class QualityControlPostproduction(Workflow,ModelSQL, ModelView):
     @staticmethod
     def default_state():
         return 'draft'
+    
+    @staticmethod
+    def default_dispatch_state():
+        return 'pending'
     
     @classmethod
     @ModelView.button
