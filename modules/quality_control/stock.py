@@ -42,3 +42,21 @@ class InwardReport(Report):
         #     inwards += i.reference + ", "
         # context['inwards'] = inwards
         return context
+
+class customerShipmentReport(Report):
+    __name__ = 'customerShipment.report'
+
+    @classmethod
+    def get_context(cls, customerShipment, data):
+        pool = Pool()
+        CustomerShipment = pool.get('stock.shipment.out')
+        context = super(customerShipmentReport,cls).get_context(customerShipment,data)
+        customerShipment = CustomerShipment(data["id"])
+        print("customerShipment")
+        print(str(customerShipment))
+        print(str(data))
+        context['customerShipmentReport'] = customerShipment
+        context['quantity'] = customerShipment.inventory_moves
+        print("inventory moves")
+        print(str(customerShipment.inventory_moves[0].quantity))
+        return context

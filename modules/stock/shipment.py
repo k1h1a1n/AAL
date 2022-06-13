@@ -967,6 +967,8 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
     gross_wt = fields.Integer("Gross Wt")
     tare_wt = fields.Integer("Tare Wt")
     net_wt = fields.Integer("Net Wt")
+
+    time = fields.DateTime("Time")
     
     planned_date = fields.Date('Planned Date',
         states={

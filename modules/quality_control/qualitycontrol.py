@@ -25,50 +25,65 @@ class PostProductionReport(Report):
         context['postproduction'] = postproduction
         return context
 
+
+class PreProductionReport(Report):
+    __name__ = 'preproduction.report'
+
+    @classmethod
+    def get_context(cls , preproduction , data):
+        pool = Pool()
+        PreProduction = pool.get('quality.control.preproduction')
+        context = super(PreProductionReport,cls).get_context(preproduction,data)
+        preproduction = PreProduction(data["id"])
+        context['preproduction'] = preproduction
+        return context
+
+
+
 # PRE PRODUCTION 
 
 class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
     "Quality Control Preproduction"
     __name__ = "quality.control.preproduction"
-    shipment = fields.Many2One('stock.shipment.in', "Inward")
-    moves = fields.Many2One('stock.move', "Moves",
+    shipment = fields.Many2One('stock.shipment.in', "Inward",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    moves = fields.Many2One('stock.move', "Moves",states={'readonly': Eval('state').in_(['approved', 'rejected'])},
             domain=[
                 ('shipment', '=', ('stock.shipment.in', Eval('shipment', -1))),
                 ('from_location.code','=','IN'),
                 ('to_location.code','=','STO'),
                  ]
             )
-    date = fields.Date("Date")
+    date = fields.Date("Date",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
 
     # inward_no = fields.Char('Inward')
 
-    drum = fields.Char("Drum")
-    input_qty = fields.Integer("Quantity",required=True)
+    drum = fields.Char("Drum",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    input_qty = fields.Integer("Quantity",required=True,states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     # party = fields.Many2One('party.party',"Party")
     # material = fields.Char('Material')
     # inwarddate = fields.Date('Inward Date')
 
     critearea = fields.One2Many('preproduction.lab.test.critearea',
-        'pre_production_lab_id', 'Analysis Report')
+        'pre_production_lab_id', 'Analysis Report',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     critearea1 = fields.One2Many('preproduction.lab.test.critearea1',
-        'pre_production_lab1_id', 'Analysis Report')
+        'pre_production_lab1_id', 'Analysis Report',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     rejected = fields.One2Many('preproduction.rejected.analysis',
-        'pre_production_rejected_id', 'GC Analysis')
-    colour = fields.Char("Colour")
-    ph = fields.Char("ph")
-    moisture = fields.Char("%Moisture")
-    spgravity = fields.Char("Sp.Gravity")
-    gcanalysis = fields.Char("%Acidty")
-    gcgraphno = fields.Char("Preoxide Value ppm")
-    remark = fields.Text("Remarks by R&D")
-    image = fields.Binary("Graph Upload")
-    graph = fields.Binary("Graph Upload")
-    my_deviation_table = fields.One2Many('preproduction.deviation','deviation_table','Deviation Table')
+        'pre_production_rejected_id', 'GC Analysis',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    colour = fields.Char("Colour",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    ph = fields.Char("ph",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    moisture = fields.Char("%Moisture",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    spgravity = fields.Char("Sp.Gravity",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    gcanalysis = fields.Char("%Acidty",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    gcgraphno = fields.Char("Preoxide Value ppm",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    remark = fields.Text("Remarks by R&D",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    # image = fields.Binary("Graph Upload",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    # graph = fields.Binary("Graph Upload")
+    my_deviation_table = fields.One2Many('preproduction.deviation','deviation_table','Deviation Table',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
 
-    ph1 = fields.Char("ph")
-    moisture1 = fields.Char("%Moisture")
-    peroxide = fields.Char("Peroxide Value(ppm)")
-    purity1 = fields.Char("Purity by GC")
+    ph1 = fields.Char("ph",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    moisture1 = fields.Char("%Moisture",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    peroxide = fields.Char("Peroxide Value(ppm)",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    purity1 = fields.Char("Purity by GC",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     state = fields.Selection([
             ('draft', 'Draft'),
             ('approved', 'Approved'),
@@ -282,25 +297,25 @@ class PreProductionRejectedAnalysis(ModelSQL,ModelView):
 class QualityControlPostproduction(Workflow,ModelSQL, ModelView):
     "Quality Control Postproduction"
     __name__ = "quality.control.postproduction"
-    production = fields.Many2One('production', "Production Batch",required=True)
-    effective_date = fields.Date("Date")
+    production = fields.Many2One('production', "Production Batch",required=True,states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    effective_date = fields.Date("Date",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     analysis_reports = fields.One2Many('preproduction.lab.test.critearea',
-        'pre_production_lab_id', 'Analysis Report')
+        'pre_production_lab_id', 'Analysis Report',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     analysis1 = fields.One2Many('postproduction.analysis1.report',
-    'post_production_analysis1_id', 'Analysis Report')
-    postgraph = fields.Binary("Graph Upload")
+    'post_production_analysis1_id', 'Analysis Report',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    # postgraph = fields.Binary("Graph Upload")
     rejecteds = fields.One2Many('preproduction.rejected.analysis',
-        'pre_production_rejected_id', 'GC Analysis')
+        'pre_production_rejected_id', 'GC Analysis',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     customer = fields.One2Many('postproduction.customer.analysis', 
-        'post_production_customer_id' , 'Customer Specification')
-    colour = fields.Char("Colour")
-    ph = fields.Char("ph")
-    moisture = fields.Char("%Moisture")
-    spgravity = fields.Char("Sp.Gravity")
-    gcanalysis = fields.Char("%Acidty")
-    gcgraphno = fields.Char("postoxide Value ppm")
-    remark = fields.Text("Remarks by R&D")
-    postimage = fields.Binary("Graph Upload")
+        'post_production_customer_id' , 'Customer Specification',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    colour = fields.Char("Colour",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    ph = fields.Char("ph",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    moisture = fields.Char("%Moisture",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    spgravity = fields.Char("Sp.Gravity",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    gcanalysis = fields.Char("%Acidty",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    gcgraphno = fields.Char("postoxide Value ppm",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    remark = fields.Text("Remarks by R&D",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
+    # postimage = fields.Binary("Graph Upload")
     state = fields.Selection([
             ('draft', 'Draft'),
             ('approved', 'Approved'),

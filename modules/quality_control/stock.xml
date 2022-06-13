@@ -31,6 +31,21 @@ this repository contains the full copyright notices and license terms. -->
             <field name="action" ref="inward_productions"/>
         </record>
 
+        <!-- customer shipment report -->
+
+        <record model="ir.action.report" id="customerShipment">
+            <field name="name">Customer Shipment</field>
+            <field name="model">stock.shipment.out</field>
+            <field name="report_name">customerShipment.report</field>
+            <field name="report">quality_control/customer_shipment.odt</field>
+        </record>
+
+        <record model="ir.action.keyword" id="customerShipment_keyword">
+            <field name="keyword">form_print</field>
+            <field name="model">stock.shipment.out,-1</field>
+            <field name="action" ref="customerShipment"/>
+        </record>
+
         <!-- <record model="ir.ui.view" id="stock_move_production_tree">
             <field name="model">stock.move</field>  
             <field name="type">tree</field>

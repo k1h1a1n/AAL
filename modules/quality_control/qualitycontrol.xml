@@ -320,6 +320,25 @@
 
                 <!-- Post Production Analysis Report -->
 
+
+
+        <!-- pre Production Analysis Report -->
+
+        <record model="ir.action.report" id="pre_production">
+            <field name="name">Pre Production Analysis</field>
+            <field name="model">quality.control.preproduction</field>
+            <field name="report_name">preproduction.report</field>
+            <field name="report">quality_control/preProductionReport.odt</field>
+        </record>
+
+        <record model="ir.action.keyword" id="pre_production_keyword">
+            <field name="keyword">form_print</field>
+            <field name="model">quality.control.preproduction,-1</field>
+            <field name="action" ref="pre_production"/>
+        </record>
+
+        <!-- pre Production Analysis Report -->
+
         <!-- menuitems -->
         <menuitem name="Quality Control" id="menu_quality_control" sequence="2"/>
         <!-- parent    -->

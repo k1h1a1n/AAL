@@ -25,8 +25,8 @@
     view_ids="quality_control.pre_qualitycontrol_rejected_view_tree,quality_control.pre_qualitycontrol_rejected_view_form"/>
     <newline/>
    
-    <label name="image"/>
-    <field name="image"/>
+    <!-- <label name="image"/>
+    <field name="image"/> -->
     <newline/>
     <separator string="" id="test" colspan="4"/>
     <separator string="Analysis of rejected material" id="tests" colspan="4"/>
