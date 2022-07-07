@@ -127,13 +127,10 @@ class QualityShipmentIn(Workflow,ModelSQL,ModelView):
     __name__ = "stock.shipment.in"
     inwardid = fields.Many2One('production','Inward ID')
     prodstate = fields.Boolean("In Production")
-    net_wt = fields.Float('Net Wt.') 
+    short_qty = fields.Float('Shortage Qty') 
     gross_wt = fields.Float('Gross Wt.') 
     tare_wt = fields.Float('Tare Wt.') 
-    remaining_qty = fields.Float('Remaining Qty', readonly=True,
-    states={
-                'invisible': ~Eval('state').in_(['done']),
-                })
+    
     preproduction_state = fields.Selection([
         ('pending', 'Pending'),
         ('approved', 'Approved'),

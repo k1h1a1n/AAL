@@ -4,8 +4,8 @@ this repository contains the full copyright notices and license terms. -->
 <data>
     <xpath expr="/form/field[@name='vehicle_no']" position="after">
     <newline/>
-    <label name="net_wt"/>
-    <field name="net_wt"/>
+    <label name="short_qty"/>
+    <field name="short_qty"/>
     <label name="gross_wt"/>
     <field name="gross_wt"/>
     <label name="tare_wt"/>

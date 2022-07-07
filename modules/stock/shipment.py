@@ -70,7 +70,7 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
     "Supplier Shipment"
     __name__ = 'stock.shipment.in'
     _rec_name = 'reference'
-    weighting = fields.Char('Weight')
+    weighting = fields.Char('Net.wt')
     chaalan = fields.Char('Chalaan No.')
     bulk = fields.Boolean(
             "Bulk",
@@ -218,6 +218,10 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         help="The main identifier for the shipment.")
     received_by = employee_field("Received By")
     done_by = employee_field("Done By")
+    remaining_qty = fields.Float('Remaining Qty', readonly=True,
+    states={
+                'invisible': ~Eval('state').in_(['done']),
+                })
     state = fields.Selection([
         ('draft', 'Draft'),
         ('done', 'Done'),
@@ -551,6 +555,7 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
     def done(cls, shipments):
         
         pool = Pool()
+        Stock = pool.get('stock.shipment.in')
         Move = pool.get('stock.move')
         Date = pool.get('ir.date')
         Move.do([m for s in shipments for m in s.inventory_moves])
@@ -566,11 +571,13 @@ class ShipmentIn(ShipmentMixin, Workflow, ModelSQL, ModelView):
         Production.create([{
                     'inward_ref': shipments[0].id
                 }])
-
+        stock = Stock.search([('id', '=', shipments[0].id)])
+        print("after stock  "+ str(stock))
+        Stock.write(stock,{'remaining_qty': shipments[0].inventory_moves[0].quantity})
+        print("after stock write "+ str(stock))
         
         cls.write([s for s in shipments if not s.effective_date], {
-                'effective_date': Date.today(),
-                'remaining_qty': shipments[0].inventory_moves[0].quantity
+                'effective_date': Date.today()
 
                 })
 
@@ -966,7 +973,7 @@ class ShipmentOut(ShipmentAssignMixin, Workflow, ModelSQL, ModelView):
 
     gross_wt = fields.Integer("Gross Wt")
     tare_wt = fields.Integer("Tare Wt")
-    net_wt = fields.Integer("Net Wt")
+    # short_qty = fields.Integer("Shortage Qty")
 
     time = fields.DateTime("Time")
     

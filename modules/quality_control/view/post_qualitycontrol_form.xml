@@ -11,12 +11,13 @@
     <field name="postgraph"/> -->
     <newline/>
     <separator id="post1" string="" colspan="4" />
-    <separator id="post2" string="Analysis of rejected material" colspan="4" />
     <field name="rejecteds" colspan="4" 
     view_ids="quality_control.pre_qualitycontrol_rejected_view_tree,quality_control.pre_qualitycontrol_rejected_view_form"/>
     <!-- <label name="postimage"/>
     <field name="postimage"/> -->
     <newline/>
+    <separator id="post2" string="Analysis of rejected material" colspan="4" />
+
     <label name="colour"/>
     <field name="colour"/> 
     <label name="ph"/>

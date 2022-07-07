@@ -7,8 +7,8 @@
     <label name="date"/>
     <field name="date"/>
     <newline/>
-    <label name="drum"/>
-    <field name="drum"/>
+    <!-- <label name="drum"/>
+    <field name="drum"/> -->
     <label name="input_qty"/>
     <field name="input_qty"/>
     
