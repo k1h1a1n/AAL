@@ -16,7 +16,7 @@ this repository contains the full copyright notices and license terms. -->
     <label name="preproduction_state"/>
     <field name="preproduction_state"/>
     <!-- <button name="preproduction"/>  -->
-    <button name="process"/>
+    <!-- <button name="process"/> -->
     <newline/>
     <label name="production_state"/>
     <field name="production_state"/>

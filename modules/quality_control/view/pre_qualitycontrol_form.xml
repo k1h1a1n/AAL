@@ -19,8 +19,23 @@
     <field name="material"/>
     <label name="inwarddate"/>
     <field name="inwarddate"/> -->
-    <field name="critearea" colspan="4" 
-    view_ids="quality_control.pre_qualitycontrol_labcritearea_view_tree,quality_control.pre_qualitycontrol_labcritarea_view_form"/>
+    <!-- <field name="critearea" colspan="4" 
+    view_ids="quality_control.pre_qualitycontrol_labcritearea_view_tree,quality_control.pre_qualitycontrol_labcritarea_view_form"/> -->
+
+    <separator string="Standard Analysis" id="test" colspan="4"/>
+    <label name="std_colour"/>
+    <field name="std_colour"/> 
+    <label name="std_ph"/>
+    <field name="std_ph"/> 
+    <label name="std_mc"/>
+    <field name="std_mc"/> 
+    <label name="std_spgr"/>
+    <field name="std_spgr"/> 
+    <label name="std_av"/>
+    <field name="std_av"/> 
+    <label name="std_pv"/>
+    <field name="std_pv"/>
+
     <field name="rejected" colspan="4" 
     view_ids="quality_control.pre_qualitycontrol_rejected_view_tree,quality_control.pre_qualitycontrol_rejected_view_form"/>
     <newline/>

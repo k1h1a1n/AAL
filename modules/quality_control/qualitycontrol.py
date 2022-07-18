@@ -45,6 +45,7 @@ class PreProductionReport(Report):
 class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
     "Quality Control Preproduction"
     __name__ = "quality.control.preproduction"
+
     shipment = fields.Many2One('stock.shipment.in', "Inward",states={'readonly': Eval('state').in_(['approved', 'rejected'])})
     moves = fields.Many2One('stock.move', "Moves",states={'readonly': Eval('state').in_(['approved', 'rejected'])},
             domain=[
@@ -62,6 +63,12 @@ class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
     # party = fields.Many2One('party.party',"Party")
     # material = fields.Char('Material')
     # inwarddate = fields.Date('Inward Date')
+    std_colour = fields.Char("Colour")
+    std_ph = fields.Char("PH")
+    std_mc = fields.Char("%M/C")
+    std_spgr = fields.Char("SP GR")
+    std_av = fields.Char("AV")
+    std_pv = fields.Char("PV")
 
     critearea = fields.One2Many('preproduction.lab.test.critearea',
         'pre_production_lab_id', 'Analysis Report',states={'readonly': Eval('state').in_(['approved', 'rejected'])})
@@ -205,7 +212,8 @@ class QualityControlPreproduction(Workflow, ModelSQL, ModelView):
             if sum > shipment[0].moves.quantity:
                 raise UserError("Failed","Sum of All pre production analysis must not be greater than Input Moves quantity ")
 
-        
+        ShipmentIn.write(shipments, {'preproduction_state': 'approved'})
+
         # List = []
        
         # for i in pre_qc:
